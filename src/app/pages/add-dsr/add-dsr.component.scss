@@ -1,0 +1,434 @@
+// // //  .flex-container {
+// // //   display: flex;
+// // //   // justify-content: space-between; 
+// // //   justify-content: left;
+// // // }  
+
+// // .flex-item {
+// //   flex: 1;
+// //   margin-right:-70px; 
+// // }
+
+// // .Datepicker {
+// //   width:50;
+// //   margin-left:117px;
+// //   margin-top: 10px;
+// //   transform: scale(0.60);
+// // }
+// // .Dropdown{
+// //   margin-top: 10px;
+// //   width:75%;
+// //   transform: scale(0.85);
+// // }
+
+// // .searchfilter{
+// //   width:330px;
+// //   margin-left:8.5px;
+// //   transform:scale(0.85)
+// // }
+
+// // .mat-card{
+// //   width:400px;
+// // }
+// // .custom-table {
+// //   border-collapse: collapse;
+// //   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //   // width: 50px;
+
+// // }
+
+// // .custom-table th{
+// //   border: 1px solid #fbce07;
+// //   padding: 3px;
+// //   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //   font-weight:bold;
+// //   color:red;
+
+// // }
+// // .custom-table td {
+// //   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //   border: 1px solid #fbce07;
+// //   padding: 3px;
+// // }
+// // .custom-header {
+// //   width:20px; 
+// // font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //    font-weight:bold;
+
+// // }
+
+// // .custom-cell {
+// //   width: 20px; 
+// //   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //   border: 1px solid #fbce07;
+// //   padding: 3px;
+  
+// // }
+
+// // .custom-input {
+// //   width: 10px; 
+// //   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// //   border: 1px solid #fbce07;
+// //   width : 50px;
+// //   height: 30px;
+
+// // }
+
+
+// // tr.mat-mdc-footer-row {
+// //   font-weight: bold;
+// // }
+
+// // .mat-mdc-table-sticky {
+// //   border-top: 1px solid #e0e0e0;
+// // }
+// // .retailor{
+// //   width:330px;
+// //   margin-left:8.5px;
+// //   transform:scale(0.85)
+// // }
+// // .area{
+// //   width:330px;
+// //   margin-left:8.5px;
+// //   transform:scale(0.85)
+// // }
+// // .custom-primary-button {
+// //   // display: block;
+// //   // margin: 0 auto;
+// //   // text-decoration: none;
+// //   // padding: 5px 10px;
+// //   // border-radius: 5px;
+// //   // width: 100%;
+// //   // background-color: #fbce07;
+// //   // color: black;
+// //   // border: 2px solid black;
+// //   // font-size: 15px;
+// //   // font-weight: bold;
+// //   display: block;
+// //   margin: 0 auto;
+// //   text-decoration: none;
+// //   padding: 3px 7px; /* Reduced padding */
+// //   border-radius: 5px;
+// //   width: 80%; /* Reduced width */
+// //   background-color: #fbce07;
+// //   color: black;
+// //   border: 2px solid black;
+// //   font-size: 12px; /* Reduced font size */
+// //   font-weight: bold;
+// // }
+
+// // .custom-primary-button:hover {
+// //   background-color: white;
+// //   border: 3px solid red;
+// //   color: black;
+// // }
+
+// // .widthvalue{
+// //   width:fit-content;
+// // }
+
+// // .subdesign{
+// //   margin-right: auto;
+// // }
+
+// .flex-container {
+//   display: flex;
+//   flex-direction: column; /* Change to column for better stacking on mobile */
+//   justify-content: left;
+//   width: 100%;
+// }
+
+// .flex-item {
+//   flex: 1;
+//   margin: 0 0 10px 0; /* Adjust margin for better spacing */
+// }
+
+// .Datepicker,
+// .Dropdown,
+// .searchfilter,
+// .retailor,
+// .area {
+//   width: 100%; /* Ensure full width on mobile */
+//   margin: 10px 0;
+//   transform: scale(0.85);
+// }
+
+// .Datepicker {
+//   transform: scale(0.75); /* Further scale down if needed */
+// }
+
+// .mat-card {
+//   width: 100%;
+//   box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+// }
+
+// .custom-table {
+//   width: 100%; /* Ensure table takes full width */
+//   border-collapse: collapse;
+//   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+//   overflow-x: auto; /* Allow horizontal scrolling */
+// }
+
+// .custom-table th,
+// .custom-table td {
+//   border: 1px solid #fbce07;
+//   padding: 3px;
+//   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// }
+
+// .custom-header {
+//   font-weight: bold;
+//   color: red;
+// }
+
+// .custom-cell {
+//   border: 1px solid #fbce07;
+//   padding: 3px;
+// }
+
+// .custom-input {
+//   width: 50px;
+//   height: 30px;
+//   border: 1px solid #fbce07;
+//   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+// }
+
+// tr.mat-mdc-footer-row {
+//   font-weight: bold;
+// }
+
+// .mat-mdc-table-sticky {
+//   border-top: 1px solid #e0e0e0;
+// }
+
+// .custom-primary-button {
+//   display: block;
+//   margin: 10px auto; /* Adjust margin for better spacing */
+//   text-decoration: none;
+//   padding: 3px 7px;
+//   border-radius: 5px;
+//   width: 80%;
+//   background-color: #fbce07;
+//   color: black;
+//   border: 2px solid black;
+//   font-size: 12px;
+//   font-weight: bold;
+// }
+
+// .custom-primary-button:hover {
+//   background-color: white;
+//   border: 3px solid red;
+//   color: black;
+// }
+
+// .widthvalue {
+//   width: fit-content;
+// }
+
+// .subdesign {
+//   margin-right: auto;
+// }
+
+// /* Additional media queries for responsive design */
+// @media screen and (max-width: 768px) {
+//   .flex-container {
+//     flex-direction: column;
+//     align-items: stretch;
+//   }
+
+//   .flex-item {
+//     margin-right: 0;
+//   }
+
+//   .custom-table th,
+//   .custom-table td {
+//     padding: 5px;
+//   }
+
+//   .custom-input {
+//     width: 100%;
+//     box-sizing: border-box;
+//   }
+// }
+
+// @media screen and (max-width: 480px) {
+//   .custom-table th,
+//   .custom-table td {
+//     padding: 2px;
+//     font-size: 12px;
+//   }
+
+//   .custom-input {
+//     width: 100%;
+//     height: 25px;
+//   }
+
+//   .custom-primary-button {
+//     width: 100%;
+//     font-size: 10px;
+//     padding: 5px;
+//   }
+// }
+
+.flex-container {
+  display: flex;
+  flex-direction: column; 
+  justify-content: left;
+  width: 100%;
+}
+
+.flex-item {
+  flex: 1;
+  margin: 0 0 10px 0; 
+  margin-top: -15px;
+}
+
+
+.Datepicker,
+.Dropdown,
+.searchfilter,
+.retailor,
+.area {
+  width: 100%; 
+  margin: 10px 0;
+  transform: scale(0.85);
+  margin-top: 10px;
+}
+
+.Datepicker {
+  transform: scale(0.85); 
+  width: 100%;
+  margin-top: 10vh;
+  margin-right: 100px;
+}
+.invaliddate{
+  margin-top: -5vh;
+  margin-left: 50px;
+}
+.flex-item {
+  margin-right: 0;
+ 
+}
+.searchfilter{
+  margin-top: -4vh;
+}
+
+.mat-card {
+  width: 100%;
+  box-sizing: border-box; 
+}
+.custom-table {
+  width: 100%; 
+  border-collapse: collapse;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  overflow-x: auto; 
+}
+
+.custom-table th,
+.custom-table td {
+  border: 1px solid #fbce07;
+  padding: 3px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.custom-header {
+  font-weight: bold;
+  color: red;
+}
+
+.custom-cell {
+  border: 1px solid #fbce07;
+  padding: 3px;
+}
+
+.custom-input {
+  width: 100%; 
+  box-sizing: border-box; 
+  height: 30px;
+  border: 1px solid #fbce07;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+tr.mat-mdc-footer-row {
+  font-weight: bold;
+}
+
+.mat-mdc-table-sticky {
+  border-top: 1px solid #e0e0e0;
+}
+
+.custom-primary-button {
+  display: block;
+  margin: 10px auto; 
+  text-decoration: none;
+  padding: 3px 7px;
+  border-radius: 5px;
+  width: 80%;
+  background-color: #fbce07;
+  color: black;
+  border: 2px solid black;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.custom-primary-button:hover {
+  background-color: white;
+  border: 3px solid red;
+  color: black;
+}
+
+.widthvalue {
+  width: fit-content;
+}
+
+.subdesign {
+  margin-right: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  
+  // .flex-item{
+  //   width:100%;
+  //   transform: scale(0.85);
+  // margin-top:  20px;;
+  // }
+  // .Datepicker{
+  //   width:100%;
+  //   transform: scale(0.85);
+  // }
+
+  .custom-table th,
+  .custom-table td {
+    padding: 5px;
+  }
+
+  .custom-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .custom-table th,
+  .custom-table td {
+    padding: 2px;
+    font-size: 12px;
+  }
+
+  .custom-input {
+    width: 100%;
+    height: 30px;
+  }
+
+  .custom-primary-button {
+    width: 100%;
+    font-size: 10px;
+    padding: 5px;
+  }
+}
+

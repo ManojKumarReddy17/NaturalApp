@@ -1,0 +1,36 @@
+<h1 class="heading">Reports</h1>
+
+<mat-form-field class="area">
+  <mat-label>Select Area : </mat-label>
+  <input matInput placeholder="Search Area" [(ngModel)]="searchText" (input)="onSearchChange($event); openDropdown()">
+  <mat-select #areaSelect (selectionChange)="selectArea($event.value)">
+    <mat-option [value]="null">-- Select Area --</mat-option>
+    <ng-container *ngFor="let area of filteredAreas">
+      <mat-option [value]="area.id">
+        <span [ngStyle]="{ color: 'red' }">{{ area.areaName.substring(0, searchText.length) }}</span>
+        <span>{{ area.areaName.substring(searchText.length) }}</span>
+      </mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>
+
+<div class="no-data" *ngIf="noDataFound">
+  No data found
+</div>
+
+<ul class="sales-reports">
+  <li *ngFor="let report of salesReports" class="sales-report-item">
+    <div class="report-details">
+      <p><strong>Area : </strong> {{ report.area }}</p>
+      <p><strong>Executive : </strong> {{ report.executive }}</p>
+      <p><strong>Distributor : </strong> {{ report.distributor }}</p>
+      <p><strong>Retailer : </strong> {{ report.retailor }}</p>
+      <p><strong>Created Date : </strong> {{ report.createdDate }}</p>
+      <p><strong>Product : </strong> {{ report.product }}</p>
+      <p><strong>Product Name : </strong> {{ report.product_Name }}</p>
+      <p><strong>Price : </strong> {{ report.price }}</p>
+      <p><strong>Quantity : </strong> {{ report.quantity }}</p>
+      <p><strong>Sale Amount : </strong> {{ report.saleAmount }}</p>
+    </div>
+  </li>
+</ul>

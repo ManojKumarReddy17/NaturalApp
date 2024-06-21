@@ -1,0 +1,28 @@
+<h1 class="product-name-header">PRODUCTS</h1>
+<mat-form-field class="filter">
+  <mat-label>Filter</mat-label>
+  <input matInput placeholder="Product Name" #input (keyup)="applyFilter(input.value)">
+</mat-form-field> 
+<button class="back-button" (click)="goback()">
+  <mat-icon class="arrow-icon">keyboard_backspace</mat-icon>
+</button>
+ <div *ngIf="loading" class="spinner-overlay">
+  <div class="spinner"></div>
+</div> 
+
+ <!-- <div><button class="login-button" [routerLink]="'Home'">LOGIN</button></div>  -->
+ <!-- <div class="header-image"></div>  -->
+ <div class="products-container">
+  <div *ngFor="let product of filteredList" class="product-card">
+    <img [src]="product.image" alt="Product Image" class="product-image">
+    <div class="product-details">
+      <p>{{ product.productName }} ({{ product.weight }}gms)</p>
+      <p class="red">₹{{ product.price }}</p>
+    </div>
+  </div>
+</div>
+
+
+
+  
+ 

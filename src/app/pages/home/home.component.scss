@@ -1,0 +1,77 @@
+.btn-group button {
+    margin-right: 10px; 
+  }
+  .btn-success-button {
+    background-color: rgba(251, 206, 7, 0);
+    border-color: black;
+    color: black;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 15px;
+    margin: 0 auto; 
+    display: block; 
+    font-weight: bold;
+    margin-bottom:80px;
+    margin-top: 130px;
+    margin-left:40px;
+     background-color :#fbce07;
+  }
+  .btn-success-button:hover {
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(255, 4, 4);
+    color: black;
+  }
+.container {
+max-width: 400px;
+margin: auto;
+text-align: center;
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat; 
+margin-top: 115px;
+padding-top: 1em;
+height: 350px;
+}
+
+.btn-group button {
+  margin-right: 10px; 
+}
+.btn-Warning-button {
+  background-color: rgba(251, 206, 7, 0);
+  border-color: black;
+  color: black;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 15px;
+  margin: 0 auto; 
+  display: block; 
+  font-weight: bold;
+  margin-bottom:-80px;
+  margin-top:-122px;
+  margin-left:190px;
+  margin-right:50px;
+  background-color :#fbce07;
+}
+
+
+.btn-Warning-button:hover {
+  background-color: rgb(255, 255, 255);
+  border: 3px solid red;
+  color: black;
+}
+
+.registration-container {
+  background-image: url("/assets/Mirchi.jpg");
+  background-size:cover;
+  background-position: center; 
+  width: 410px;
+  height: 320px; 
+  margin: auto;
+  margin-top: 20px;
+  margin-left: -4px;
+  padding: 20px; 
+  background-color: whitesmoke(240, 233, 233, 0.8); 
+  border-radius: 15px; 
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); 
+}
+

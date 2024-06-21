@@ -1,0 +1,14 @@
+<app-header></app-header>
+
+<div class="container">
+  <mat-card class="registration-container">
+    <div>
+      <div>
+        <button class="btn-success-button" [routerLink]="'/Login'" [queryParams]="{name: 'EXECUTIVE'}">EXECUTIVE</button>
+        <button class="btn-Warning-button" [routerLink]="'/Login'" [queryParams]="{name: 'DISTRIBUTOR'}">DISTRIBUTOR</button>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<app-footer></app-footer>

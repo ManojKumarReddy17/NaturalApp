@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="icon-container">
+    <img [src]="userDetails?.presignedUrl" class="profile">
+  </div>
+  
+  <div class="info-item">
+    <span class="label">Name:</span>
+    <span class="value">{{ userDetails?.FirstName }} {{ userDetails?.LastName }}</span>
+  </div>
+ 
+  <div class="info-item">
+    <span class="label">Mobile Number:</span>
+    <span class="value">{{ userDetails?.mobileNumber }}</span>
+  </div>
+  
+  <div class="info-item">
+    <span class="label">Executive:</span>
+    <span class="value">{{ userDetails?.executives }}</span>
+  </div>
+</div>

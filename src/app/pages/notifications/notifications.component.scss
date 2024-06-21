@@ -1,0 +1,32 @@
+.notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.notification-icon {
+  margin-right: 10px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-header {
+  font-weight: bold;
+}
+
+.notification-body {
+  margin-top: 5px;
+}
+
+.mat-icon {
+  font-size: 24px;
+}

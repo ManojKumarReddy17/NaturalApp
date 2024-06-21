@@ -1,0 +1,20 @@
+<h1>
+  <mat-card>Notification</mat-card>
+</h1>
+<mat-card>
+  <div class="notifications">
+    <div class="notification" *ngFor="let notification of notifications">
+      <div class="notification-icon">
+        <mat-icon matBadge="">sms</mat-icon>
+        <!-- Include text description of the icon's meaning for screen-readers -->
+        <span class="cdk-visually-hidden">
+          Example with a SMS icon with overlaid badge showing the number 15
+        </span>
+      </div>
+      <div class="notification-content">
+        <div class="notification-header">{{ notification.subject }}</div>
+        <div class="notification-body">{{ notification.body }}</div>
+      </div>
+    </div>
+  </div>
+</mat-card>

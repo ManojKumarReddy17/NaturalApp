@@ -1,0 +1,97 @@
+.sales-reports {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sales-report-item {
+
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin: 2vh auto;
+  border: 1px solid #fbce07;
+  padding: 10px;
+  border-radius: 10px; /* Adding border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* White background */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left; 
+}
+
+.report-details {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 1vh auto;
+  padding: 0 4vw;
+  border-radius: 20px;
+ 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
+  align-items: flex-start;
+}
+
+.report-details p {
+  margin: 5px 0;
+}
+
+
+.searchfilter{
+  width:100%;
+  transform: scale(0.85);
+ background-color: whitesmoke;
+ font-weight: bold;
+}
+.heading{
+  margin-left:130px;
+  color: red;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 1vh auto;
+  padding: 0 4vw;
+  border-radius: 20px;
+ 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.area {
+transform: scale(0.85);
+width: 400px;
+height: 100px;
+display: flex;
+justify-content: center;
+text-align: center;
+margin: 1vh auto;
+padding: 0 4vw;
+border-radius: 20px;
+
+flex-direction: column; 
+justify-content: center; 
+align-items: center;
+margin-bottom: -20px;
+
+
+
+}
+.red-letter {
+color: red;
+}
+.no-data {
+  color: red;
+  font-size: 2vw;
+  // margin-top: 5vh;
+  text-align: center;
+  // margin-left: 30%;
+  margin-top: 100px;/* Adjust styling as needed */
+}
+
+
+
+

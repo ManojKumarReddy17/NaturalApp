@@ -1,0 +1,48 @@
+<p class="count">TODAYS ORDER FORM COUNT :
+  <span class="red-text">{{DSRCount}}</span>
+</p>
+
+<mat-form-field class="Datepicker">
+  <mat-icon matPrefix>search</mat-icon>
+
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" class="input-field" (dateInput)="onDateChanged($event)">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field class="searchfilter">
+  <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Area</mat-label>
+  <input matInput placeholder="Area" #areaInput (keyup)="applyFilterByArea(areaInput.value)">
+</mat-form-field>
+
+<mat-form-field class="searchfilter">
+  <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Retailer</mat-label>
+  <input matInput placeholder="Retailer" #input (keyup)="applyFilter(input.value)">
+</mat-form-field>
+
+
+
+<button mat-icon-button class="primary-button" [routerLink]="['CreateDSR',id]">CREATE ORDER FORM</button>
+
+<div *ngIf="noDataFound" class="no-data-found">NO DATA FOUND</div>
+
+<div class="retailer-box mat-elevation-z2" *ngFor="let retailorlist of filteredRetailorList">
+  <button (click)="onInfoButtonClick(retailorlist)" [routerLink]="'/RetailorDetails'" class="display">
+    <div class="retailer-details">
+      <div class="account-circle-container">
+        <mat-icon class="account-circle">account_circle</mat-icon>
+        <div class="retailer-label retailer-name">{{retailorlist.retailor}}</div>
+      </div>
+      <div class="retailer-address">
+        <span class="retailer-label">Address: {{ retailorlist.address ? retailorlist.address : 'Null' }}</span>
+        <span class="retailer-label">Phonenumber: {{ retailorlist.phonenumber ? retailorlist.phonenumber : 'Null' }}</span>
+        <span class="retailer-label">Area: {{ retailorlist.area ? retailorlist.area : 'Null' }}</span>
+    
+        <span class="retailer-label">TotalAmount: {{ retailorlist.totalAmount ? retailorlist.totalAmount : '0' }}</span>
+        <span class="retailer-label">CreatedDate: {{ retailorlist.createdDate ? (retailorlist.createdDate | date: 'MM-dd-yyyy') : '0' }}</span>
+    </div>    
+    </div>
+  </button>
+</div>

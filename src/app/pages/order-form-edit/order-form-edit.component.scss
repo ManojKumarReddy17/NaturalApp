@@ -1,0 +1,63 @@
+.heading{
+    text-align: center;
+    color:red;
+    font-weight: bold;
+}
+
+  .section-container {
+    margin-top: 20px;
+  }
+  
+  .section-container p {
+    margin-bottom: 10px;
+  }
+  
+  .Product.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .Product.table th, .Product.table td {
+    border: 1px solid red; 
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-role {
+    color: red; 
+    font-weight: bold;
+  }
+
+
+  
+  .submit-button {
+        background-color: #fbce07; 
+        border-color: red;
+        border-radius: 30px;
+        width:100px;
+        color:black;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        font-size: 15px;
+        margin-top: 10px;
+  }
+  
+  .submit-button:hover {
+    background-color: white; 
+    color: black; 
+  }
+  .back-button {
+    padding: 0; 
+    background-color: transparent; 
+    cursor: pointer;
+    font-weight: bold; 
+    transform: scale(1.5);
+    margin-top: 10px;
+
+  }
+  
+ 
+  

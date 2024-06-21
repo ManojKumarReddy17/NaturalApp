@@ -1,0 +1,48 @@
+<app-header></app-header>
+
+<div class="mat-card">
+  <mat-card class="registration-container">
+    <mat-card-title class="bold-title">{{name}} LOGIN</mat-card-title>
+    <form class="example" #Userdetails="ngForm" (ngSubmit)="onSubmit(Userdetails)" novalidate>
+      <mat-form-field class="example-full-width">
+        <mat-label>
+          <mat-icon class="icon bold-icon">account_circle</mat-icon>
+          <span class="bold-text">UserName</span>
+        </mat-label>
+        <input name="username" ngModel matInput placeholder="Enter UserName" required #Username>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>
+          <mat-icon class="icon bold-icon">lock</mat-icon>
+          <span class="bold-text">Password</span>
+        </mat-label>
+        <input name="password" ngModel matInput [type]="showPassword ? 'text' : 'password'" placeholder="Enter password" required pattern="[a-zA-Z0-9]*">
+        <mat-icon matSuffix (click)="togglePasswordVisibility()">
+          {{showPassword ? 'visibility_On' : 'visibility_off'}}
+        </mat-icon>
+      </mat-form-field>
+      
+      <div *ngIf="isSubmitting" class="spinner-overlay">
+          <div class="spinner"></div>
+        </div>
+
+
+      <button [ngClass]="{'custom-primary-button large-button': Userdetails.value.username && Userdetails.value.password , 'btn-disabled': !Userdetails.value.username || !Userdetails.value.password}" mat-raised-button type="submit" [disabled]="!Userdetails.value.username || !Userdetails.value.password">SIGN IN</button>
+
+      <div *ngIf="invalidCredentials">
+        <ng-container *ngTemplateOutlet="popupcontainer"></ng-container>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+<ng-template #popupcontainer>
+  <div class="popup-container">
+    <div class="popup error-popup">
+      <p class="invalid-credentials">INVALID USERNAME OR PASSWORD</p>
+      <button class="ok-button" (click)="closePopupWindow()">OK</button>
+    </div>
+  </div>
+</ng-template>
+
+<app-footer></app-footer>
