@@ -26,8 +26,24 @@
           <div class="spinner"></div>
         </div>
 
-
+        <!-- <div class="SIGN">
       <button [ngClass]="{'custom-primary-button large-button': Userdetails.value.username && Userdetails.value.password , 'btn-disabled': !Userdetails.value.username || !Userdetails.value.password}" mat-raised-button type="submit" [disabled]="!Userdetails.value.username || !Userdetails.value.password">SIGN IN</button>
+      </div>
+      </div> -->
+      <div class="SIGN">
+        <button 
+          [ngClass]="{
+            'custom-primary-button large-button': Userdetails.value.username && Userdetails.value.password,
+            'btn-disabled': !Userdetails.value.username || !Userdetails.value.password
+          }" 
+          mat-raised-button 
+          type="submit" 
+          [disabled]="!Userdetails.value.username || !Userdetails.value.password"
+        >
+          SIGN IN
+        </button>
+      </div>
+      
 
       <div *ngIf="invalidCredentials">
         <ng-container *ngTemplateOutlet="popupcontainer"></ng-container>
