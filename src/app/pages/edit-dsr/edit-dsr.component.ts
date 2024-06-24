@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -41,6 +42,10 @@ export class EditDsrComponent implements OnInit {
   subscription: any;
   retailorlist: RetailorDetails;
   retailorArea: string | undefined;
+  RetailerArea:any;
+  RetailerName:any;
+  orderDate:Date;
+  id:any;
 
   constructor(
     private productService: ProductService,
@@ -51,6 +56,7 @@ export class EditDsrComponent implements OnInit {
     private router: Router
   ) {
     this.retainedproducts$ = this.store.pipe(select(selectProducts));
+    this.getRetailorNamesByDistributor();
   }
 
   ngOnInit(): void {
@@ -68,6 +74,7 @@ export class EditDsrComponent implements OnInit {
       } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
         this.getRetailorNamesByExecutive();
       }
+
       this.getProducts();
     });
 
@@ -76,6 +83,7 @@ export class EditDsrComponent implements OnInit {
         this.retailorlist = retailorlist;
         console.log(retailorlist);
         this.retailorArea = retailorlist.area;
+        this.id = retailorlist.id; 
       }
     });
 
@@ -95,8 +103,14 @@ export class EditDsrComponent implements OnInit {
           const sessionKey = `productDetails`;
           const sessionData = sessionStorage.getItem(sessionKey);
           if (sessionData != null) {
+            const productDetails: ProductDetails = JSON.parse(sessionData);
+            this.selectedRetailer = productDetails.retailor;
+            this.orderDate = productDetails.createdDate;
+            this.retailorlist.id;
+            console.log(this.retailorlist.id)
+            console.log(this.selectedRetailer);
+            console.log(this.orderDate);
             this.dataSource.data.forEach((product) => {
-              const productDetails: ProductDetails = JSON.parse(sessionData);
               const singleProduct = productDetails.product.find((item) => item.product === product.productName);
               if (singleProduct) {
                 product.price = singleProduct.price,
@@ -123,6 +137,7 @@ export class EditDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbydistributor(this.distributorid).subscribe({
         next: (data) => {
           this.retailorNames = data;
+          this.filterRetailers();
           this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
           console.log(this.areas);
         },
@@ -151,6 +166,7 @@ export class EditDsrComponent implements OnInit {
     const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
     console.log(selectedProducts);
     console.log(this.selectedRetailer);
+    console.log(this.id); 
 
     this.saveProductsToSession(selectedProducts);
 
@@ -165,14 +181,15 @@ export class EditDsrComponent implements OnInit {
       }
     });
 
-    this.router.navigate(['/Edit', this.distributorid,'Orderform'], 
-    {
-      queryParams: {
-        products: JSON.stringify(selectedProducts),
-        retailer: JSON.stringify(this.selectedRetailer),
-        area: this.selectedArea
-      }
-    });
+    this.router.navigate(['/Edit', this.distributorid, 'Orderform'],
+      {
+        queryParams: {
+          products: JSON.stringify(selectedProducts),
+          retailer: JSON.stringify(this.selectedRetailer),
+          area: this.selectedArea,
+          rId: this.id
+        }
+      });
   }
 
   calculateSubtotal(product: any, newQuantity: string): void {
@@ -222,6 +239,7 @@ export class EditDsrComponent implements OnInit {
     };
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 
   private saveProductsToSession(selectedProducts: Product[]): void {
     sessionStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));

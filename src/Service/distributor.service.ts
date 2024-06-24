@@ -8,6 +8,7 @@ import { UserDetails } from '../app/Models/user-details';
 import { RXDBService } from './rxdb.service';
 import { RxCollection } from 'rxdb';
 import details from '../Schemas/Userdetails';
+import { HttpclentwrapperService } from './httpclentwrapper.service';
 
 
 @Injectable({
@@ -17,15 +18,15 @@ export class DistributorService {
 
 userdetailsCollection: RxCollection<UserDetails, any, any>;
 
-  ApiUrl = "http://3.110.27.195:5024/api/Distributor/Login";
+  ApiUrl = "Distributor/Login";
 
-  constructor(private httpClient: HttpClient, private rxdbService: RXDBService) {
+  constructor(private rxdbService: RXDBService,private httpclient:HttpclentwrapperService) {
     
   }
 
 
   getData(userdetails: Login): Observable<UserDetails> {
-    return this.httpClient.post<UserDetails>(this.ApiUrl, userdetails);
+    return this.httpclient.post<UserDetails>(this.ApiUrl, userdetails);
   }
 
   async saveDistributordetails(data: any) {

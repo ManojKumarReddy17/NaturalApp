@@ -4,6 +4,7 @@ id:string;
 executive:string; 
 distributor:string;
 retailor:string;
+rId :string;
 orderBy:string;
 totalAmount: number;
 createdDate:Date;

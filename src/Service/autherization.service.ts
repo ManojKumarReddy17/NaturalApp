@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpclentwrapperService } from './httpclentwrapper.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutherizationService {
+ 
 
   loggedinUserRole:string;
   loggedinUserName:string;
 
   
-  constructor() { }
+  constructor(HttpclentwrapperServices:HttpclentwrapperService) { }
   setloginuserrole(user:string)
   {
     this.loggedinUserRole=user;

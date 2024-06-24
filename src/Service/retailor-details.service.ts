@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RetailorDetails } from '../app/Models/retailor-details';
 import { ProductDetails } from '../app/Models/product-details';
+import { HttpclentwrapperService } from './httpclentwrapper.service';
 
 
 @Injectable({
@@ -10,10 +11,10 @@ import { ProductDetails } from '../app/Models/product-details';
 })
 export class RetailorDetailsService {
 
-  apiUrl: string = 'http://3.110.27.195:5024/api/Dsr/RetailorDetailsbyExeOrDisId?Id=';
-  productsApiUrl = 'http://3.110.27.195:5024/api/Dsr/ById/';
-  assignedRetailorsbydistirbutorUrl = 'http://3.110.27.195:5024/api/AssignRetailorToDistributor/Details';
-  assignedRetailorsbyexecutiveUrl = 'http://3.110.27.195:5024/api/Dsr/AssignedDetails';
+  apiUrl: string = 'Dsr/RetailorDetailsbyExeOrDisId?Id=';
+  productsApiUrl = 'Dsr/ById/';
+  assignedRetailorsbydistirbutorUrl = 'AssignRetailorToDistributor/Details';
+  assignedRetailorsbyexecutiveUrl = 'Dsr/AssignedDetails';
 
 
 
@@ -22,7 +23,7 @@ export class RetailorDetailsService {
   private infoButtonClickSubject = new BehaviorSubject<RetailorDetails | null>(null);
   infoButtonClick$ = this.infoButtonClickSubject.asObservable();
   
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient :HttpclentwrapperService) { }
   setdetails(infoButtonClickSubject: RetailorDetails) {
     this.infoButtonClickSubject.next(infoButtonClickSubject);
     this.saveUserDetailsToSessionStorage(infoButtonClickSubject);

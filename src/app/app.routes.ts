@@ -30,14 +30,17 @@ export const routes: Routes =
           { path: '', component: ContentComponent },
           { path: 'CreateDSR/:id', component: AddDsrComponent },
           {path:'Productview',component:ProductViewComponent}, 
+          {path:'notifications',component:NotificationsComponent},
+          {path:'Reports',component:ReportsComponent},
+
+
+
         ]
       },
       
     { path: 'RetailorDetails', component: RetailorDetailsComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'products/Home', component: HomeComponent },
-    {path:'notifications',component:NotificationsComponent},
-    {path:'Reports',component:ReportsComponent},
     { path: 'CreateDSR/:id/Review', component: ReviewComponent },
     {path:'Productview',component:ProductViewComponent},
 

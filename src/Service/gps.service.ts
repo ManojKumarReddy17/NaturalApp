@@ -3,19 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Position } from '../app/Models/position';
+import { HttpclentwrapperService } from './httpclentwrapper.service';
 @Injectable({
   providedIn: 'root'
 })
 export class GpsService {
-  private apiUrl = 'http://3.110.27.195:5024/ExecutiveGPS/CreateOrUpdateExe';
+  private apiUrl = 'ExecutiveGPS/CreateOrUpdateExe';
 
   private executiveId="NEXE42314"; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpclient:HttpclentwrapperService) { }
 
   postPosition(executiveId: string, latitude: string, longitude: string): Observable<any> {
     const position = new Position(executiveId, latitude, longitude);
-    return this.http.post(this.apiUrl, position);
+    return this.httpclient.post(this.apiUrl, position);
   }
 
   startPostingPosition(latitude: string, longitude: string): void {
