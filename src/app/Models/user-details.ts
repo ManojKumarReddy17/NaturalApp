@@ -1,4 +1,5 @@
 export class UserDetails {
+   
     id: string;
     FirstName: string;
     LastName: string;

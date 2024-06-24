@@ -1,3 +1,4 @@
+
 .container {
   display: flex;
   flex-direction: column;
@@ -22,6 +23,7 @@
   font-size: 20px;
   color: red;
   font-weight: bold;
+  margin-right: 10%;
 }
 .info {
   display: flex;
@@ -140,6 +142,7 @@
   }
   .button-container {
     margin-left: 10px;
+    flex-direction: row; /* Ensure buttons remain in row direction */
   }
   .delete-button {
     margin-left: 10px;
@@ -165,7 +168,7 @@
     font-size: 16px;
   }
   .button-container {
-    flex-direction: column;
+    flex-direction: row; /* Ensure buttons remain in row direction */
     align-items: flex-end;
     gap: 5px;
   }

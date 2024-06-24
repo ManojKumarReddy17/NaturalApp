@@ -9,7 +9,10 @@ import { Location } from '@angular/common';
 import { Platform } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { App } from '@capacitor/app';
-// import { AddDsrComponent } from './pages/add-dsr/add-dsr.component';
+
+
+
+
 
 @Component({
   selector: 'app-root',
