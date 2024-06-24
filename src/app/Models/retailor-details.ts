@@ -9,8 +9,18 @@ export class RetailorDetails {
     orderBy: string;
     createdDate: Date;
     area:string;
+    rId : string;
  
-    constructor(Id : string,Name:string,Address:string,Phonenumber:string,TotalAmount:string,Distributor:string,Executive:string,OrderBy:string,Createddate:Date,Area:string){
+    constructor(Id : string,
+        Name:string,
+        Address:string,
+        Phonenumber:string,
+        TotalAmount:string,Distributor:string,
+        Executive:string,
+        OrderBy:string,Createddate:Date,
+        Area:string,
+        RId:string)
+        {
         this.id = Id;
         this.retailor = Name;
         this.address = Address;
@@ -21,7 +31,7 @@ export class RetailorDetails {
         this.orderBy = OrderBy;
         this.createdDate = Createddate;
         this.area = Area;
-
+        this.rId = RId;
         
     }
 }

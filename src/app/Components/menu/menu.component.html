@@ -12,12 +12,12 @@
       </a>
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="/Reports">
+      <a mat-list-item routerLink="Reports">
         <mat-icon class="custom-icon">addchart</mat-icon> 
         <span class="reports">Reports</span>
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/notifications">
+      <a mat-list-item routerLink="notifications">
         <ng-container *ngIf="userDetails.id.startsWith('NDIS')">
           <mat-icon class="custom-icon" matBadge="{{ distributorNotificationsCount }}" matBadgeColor="warn">notifications</mat-icon>
         </ng-container>

@@ -5,6 +5,7 @@ import { RxCollection } from "rxdb";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import allProducts from "../Schemas/Products";
+import { HttpclentwrapperService } from "./httpclentwrapper.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,15 @@ export class ProductService {
   
   allProductsCollection: RxCollection<Product, any, any>;
 
-  ApiUrl = "http://3.110.27.195:5024/api/Product";
+  ApiUrl = "Product";
 
 
-  constructor(private httpclient: HttpClient, private rxdbService: RXDBService) { 
+  constructor( private rxdbService: RXDBService,private clent:HttpclentwrapperService) { 
     
   }
 
   getProducts(): Observable<Product[]> {
-    return this.httpclient.get<Product[]>(this.ApiUrl);
+    return this.clent.get<Product[]>(this.ApiUrl);
   }
   
 

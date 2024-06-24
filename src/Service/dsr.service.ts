@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductDetails } from '../app/Models/product-details';
 import { Observable } from 'rxjs';
+import { HttpclentwrapperService } from './httpclentwrapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,10 @@ export class DsrService {
 
   SelectedDate:Date;
   SelectedRetailer:string |undefined;
-ApiUrl="http://3.110.27.195:5024/api/Dsr";
+  ApiUrl="Dsr";
 
 
-constructor(private httpclient:HttpClient) { }
+constructor(private httpclient:HttpclentwrapperService) { }
  Postproducts(prod:ProductDetails):Observable<ProductDetails>
  {
   return this.httpclient.post<ProductDetails>(this.ApiUrl,prod);
@@ -41,7 +41,12 @@ constructor(private httpclient:HttpClient) { }
 editProduct(prod: ProductDetails): Observable<ProductDetails> {
   return this.httpclient.put<ProductDetails>(`${this.ApiUrl}/${prod.id}`, prod);
 }
+/* editProduct(prod: ProductDetails): Observable<ProductDetails> {
+  // Set the id of the product before sending the PUT request
+  prod.id = 'DSR21174'; // Set the desired id here
 
+  return this.httpclient.put<ProductDetails>(${this.ApiUrl}/${prod.id}, prod);
+} */
 
 }
 

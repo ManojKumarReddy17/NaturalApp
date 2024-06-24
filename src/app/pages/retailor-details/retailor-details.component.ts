@@ -45,26 +45,21 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
       if (!this.isRetailorAlreadyPresent(retailorlist)) {
         this.retailorlist = retailorlist;
         console.log(retailorlist);
+        console.log()
         this.loadProducts(retailorlist.id);
       }
     });
   }
   private loadProducts(id: string): void {
-    const sessionKey = `productDetails_${id}`;
+    const sessionKey = `productDetails`;
     const sessionData = sessionStorage.getItem(sessionKey);
-    if (sessionData) {
-      const productDetails: ProductDetails = JSON.parse(sessionData);
-      this.processData(productDetails);
-      console.log('Loaded from session storage:', productDetails);
-      this.store.dispatch(loadProductDetails({ productDetails }));
-    } else {
       this.retailorService.getProductsById(id).subscribe((productDetails: ProductDetails) => {
         this.processData(productDetails);
         console.log('Fetched from service:', productDetails);
         sessionStorage.setItem(sessionKey, JSON.stringify(productDetails));
         this.store.dispatch(loadProductDetails({ productDetails }));
       });
-    }
+
   }
   private processData(data: ProductDetails): void {
     this.dataSource.data = data.product;
