@@ -45,16 +45,25 @@ export class ContentComponent implements OnInit {
     }
 
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition((position) => {
-        const latitude = position.coords.latitude.toString();
-        const longitude = position.coords.longitude.toString();
-        this.gpsservice.startPostingPosition(latitude, longitude);
-      });
+      navigator.geolocation.watchPosition(
+        (position) => {
+          const latitude = position.coords.latitude.toString();
+          const longitude = position.coords.longitude.toString();
+          this.gpsservice.startPostingPosition(latitude, longitude);
+        },
+        (error) => {
+          console.error('Error watching position:', error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
   }
-
   loadRetailorList() {
     if (this.id && this.id.startsWith('NDIS')) {
       this.loadRetailorListByDistributorId();

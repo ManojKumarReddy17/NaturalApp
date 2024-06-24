@@ -11,6 +11,7 @@ import { UserDetails } from '../../Models/user-details';
 import { ProfileService } from '../../../Service/profile.service';
 import { NotificationsService } from '../../../Service/notifications.service';
 
+
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -18,6 +19,7 @@ import { NotificationsService } from '../../../Service/notifications.service';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })
+
 export class MenuComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   userName: any;
@@ -25,6 +27,9 @@ export class MenuComponent implements OnInit {
   showLogoutPopup: boolean = false;
   distributorNotificationsCount: number;
   executiveNotificationsCount: number;
+
+ 
+
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -66,7 +71,9 @@ export class MenuComponent implements OnInit {
   toggleSidenav() {
     this.sidenav.toggle();
   }
-
+  closeSidenav(sidenav: MatSidenav) {
+    sidenav.close();
+  }
   openLogoutPopup() {
     this.showLogoutPopup = true;
   }
