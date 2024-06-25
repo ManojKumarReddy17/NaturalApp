@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpclentwrapperService } from './httpclentwrapper.service';
+import { RXDBService } from './rxdb.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class NotificationsService {
   private executiveApiUrl = 'Notification/Notifications';
 
 
-  constructor(private clent:HttpclentwrapperService) { }
+  constructor(private clent:HttpclentwrapperService, private rxdbService: RXDBService) { }
 
   getNotificationsByDistributorId(distributorId: string): Observable<any> {
     return this.clent.get(`${this.distributorApiUrl}/DistributorId?DistributorId=${distributorId}`).pipe(
@@ -30,5 +31,17 @@ export class NotificationsService {
   private handleError(error: any) {
     console.error('An error occurred', error);
     return throwError('Something went wrong; please try again later.');
+  }
+
+  async saveNotification(data : any[]){
+    try {
+      
+      for( const d of data){
+        await this.rxdbService.notificationCollection.insert(d);
+      }
+    } catch (error) {
+      console.error(`notification INSERT ERROR ### ${error.message}`)
+    }
+    
   }
 }

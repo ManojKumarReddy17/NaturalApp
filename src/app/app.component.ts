@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { Platform } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { App } from '@capacitor/app';
+import { RXDBService } from '../Service/rxdb.service';
 
 
 
@@ -23,8 +24,9 @@ import { App } from '@capacitor/app';
 })
 export class AppComponent {
   title = 'natural-angular-app';
-constructor(private platform: Platform, private location: Location){
+constructor(private platform: Platform, private location: Location, private rxdbService: RXDBService){
   this.initializeApp();
+  this.rxdbService.ensureIsDatabaseCreated();
 }
 
 initializeApp(){
