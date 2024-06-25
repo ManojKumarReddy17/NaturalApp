@@ -30,10 +30,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             this.notificationService.getNotificationsByDistributorId(userId).subscribe(
               (data: any[]) => {
                 this.notifications = data;
+                this.notificationService.saveNotification(this.notifications);
               },
               (error) => {
                 console.error('Error fetching distributor notifications:', error);
               }
+
             );
           } else if (userId.startsWith('NEXE')) {
             // Fetch executive notifications
