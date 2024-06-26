@@ -33,7 +33,7 @@ export class NotificationsService {
     return throwError('Something went wrong; please try again later.');
   }
 
-  async saveNotification(data : any[]){
+  async saveNotification(data:any[]){
     try {
       
       for( const d of data){

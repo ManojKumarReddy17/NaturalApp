@@ -7,6 +7,12 @@ import { UserDetails } from '../app/Models/user-details';
 import { Product } from '../app/Models/product';
 import { RetailorDetails } from '../app/Models/retailor-details';
 import allNotifications from '../Schemas/NotificationSchema';
+import { Reports } from '../app/Models/reports';
+import allreports from '../Schemas/Reports';
+import allAreas from '../Schemas/Areas';
+import { Areas } from '../app/Models/areas';
+
+
 
 
 
@@ -17,6 +23,8 @@ export class RXDBService {
   userDetailCollection: RxCollection<UserDetails,any,any>;
   productCollection: RxCollection<Product,any,any>;
   notificationCollection: RxCollection<Notification,any,any>
+  reportsCollection: RxCollection<Reports,any,any>
+  areasCollection: RxCollection<Areas,any,any>
   constructor() { }
 
     db:RxDatabase |null = null;
@@ -35,7 +43,7 @@ export class RXDBService {
       }
 
       async addCollections(){
-        const {user, prod, notifi} = await this.db.addCollections({
+        const {user, prod, notifi,reports,areas} = await this.db.addCollections({
           user : {
             schema : details
           },
@@ -44,11 +52,21 @@ export class RXDBService {
           },
           notifi:{
             schema : allNotifications
+          },
+          reports:{
+            schema:allreports
+          },
+          areas:{
+            schema:allAreas
           }
+          
         });
         this.userDetailCollection = user;
         this.productCollection = prod;
         this.notificationCollection = notifi;
+        this.reportsCollection = reports;
+        this.areasCollection = areas;
+        
         console.log("collections created successfully");
       }
     
