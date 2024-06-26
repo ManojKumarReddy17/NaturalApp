@@ -44,6 +44,8 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.retailorService.infoButtonClick$.subscribe((retailorlist: RetailorDetails) => {
       if (!this.isRetailorAlreadyPresent(retailorlist)) {
         this.retailorlist = retailorlist;
+        this.retailorService.saveRetailorDetails(this.dataSource.data);
+
         console.log(retailorlist);
         console.log()
         this.loadProducts(retailorlist.id);
@@ -63,6 +65,7 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
   }
   private processData(data: ProductDetails): void {
     this.dataSource.data = data.product;
+
     console.log(this.dataSource.data);
   }
   goback() {

@@ -5,6 +5,7 @@ executive:string;
 distributor:string;
 retailor:string;
 rId :string;
+aId:string;
 orderBy:string;
 totalAmount: number;
 createdDate:Date;
@@ -16,5 +17,6 @@ export interface productDetails{
     product : string;
     price: any;
     quantity: any;
-    dsr:any;
+    dsr:any
+
 }

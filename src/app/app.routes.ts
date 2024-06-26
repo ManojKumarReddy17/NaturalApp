@@ -32,23 +32,15 @@ export const routes: Routes =
           {path:'Productview',component:ProductViewComponent}, 
           {path:'notifications',component:NotificationsComponent},
           {path:'Reports',component:ReportsComponent},
-
-
-
         ]
-      },
-      
+      },     
     { path: 'RetailorDetails', component: RetailorDetailsComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'products/Home', component: HomeComponent },
     { path: 'CreateDSR/:id/Review', component: ReviewComponent },
     {path:'Productview',component:ProductViewComponent},
-
     {path:'Edit',component:EditDsrComponent},
     { path:'Edit/:id/Orderform', component:OrderformEditComponent},
-
-
- 
 
 ];
 

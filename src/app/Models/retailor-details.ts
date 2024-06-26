@@ -10,6 +10,7 @@ export class RetailorDetails {
     createdDate: Date;
     area:string;
     rId : string;
+    aId:string;
  
     constructor(Id : string,
         Name:string,

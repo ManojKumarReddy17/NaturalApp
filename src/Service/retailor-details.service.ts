@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { RetailorDetails } from '../app/Models/retailor-details';
 import { ProductDetails } from '../app/Models/product-details';
 import { HttpclentwrapperService } from './httpclentwrapper.service';
+import { RXDBService } from './rxdb.service';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class RetailorDetailsService {
   private infoButtonClickSubject = new BehaviorSubject<RetailorDetails | null>(null);
   infoButtonClick$ = this.infoButtonClickSubject.asObservable();
   
-  constructor(private httpClient :HttpclentwrapperService) { }
+  constructor(private httpClient :HttpclentwrapperService,private rxdbservice:RXDBService) { }
   setdetails(infoButtonClickSubject: RetailorDetails) {
     this.infoButtonClickSubject.next(infoButtonClickSubject);
     this.saveUserDetailsToSessionStorage(infoButtonClickSubject);
@@ -58,6 +59,17 @@ export class RetailorDetailsService {
   getRetailorsListByDate(distributorid: string, date: string): Observable<RetailorDetails[]> {
     const url = `http://3.110.27.195:5024/api/Dsr/RetailorDetails/${distributorid}/${date}`;
     return this.httpClient.get<RetailorDetails[]>(url);
+  }
+  async saveRetailorDetails(data : any[]){
+    try {
+      
+      for( const d of data){
+        await this.rxdbservice.retailorCollection.insert(d);
+      }
+    } catch (error) {
+      console.error(`Retailor INSERT ERROR ### ${error.message}`)
+    }
+    
   }
 }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductDetails } from '../app/Models/product-details';
 import { Observable } from 'rxjs';
 import { HttpclentwrapperService } from './httpclentwrapper.service';
+import { RXDBService } from './rxdb.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class DsrService {
   ApiUrl="Dsr";
 
 
-constructor(private httpclient:HttpclentwrapperService) { }
+constructor(private httpclient:HttpclentwrapperService,private rxdbservice:RXDBService) { }
  Postproducts(prod:ProductDetails):Observable<ProductDetails>
  {
   return this.httpclient.post<ProductDetails>(this.ApiUrl,prod);
@@ -41,15 +42,19 @@ constructor(private httpclient:HttpclentwrapperService) { }
 editProduct(prod: ProductDetails): Observable<ProductDetails> {
   return this.httpclient.put<ProductDetails>(`${this.ApiUrl}/${prod.id}`, prod);
 }
-/* editProduct(prod: ProductDetails): Observable<ProductDetails> {
-  // Set the id of the product before sending the PUT request
-  prod.id = 'DSR21174'; // Set the desired id here
-
-  return this.httpclient.put<ProductDetails>(${this.ApiUrl}/${prod.id}, prod);
-} */
+async saveDsrDetails(data : any[]){
+  try {
+    
+    for( const d of data){
+      await this.rxdbservice.dsrCollection.insert(d);
+    }
+  } catch (error) {
+    console.error(`Retailor INSERT ERROR ### ${error.message}`)
+  }
+  
 
 }
-
+}
 
 
 

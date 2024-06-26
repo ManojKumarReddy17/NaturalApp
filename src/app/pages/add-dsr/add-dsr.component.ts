@@ -102,6 +102,7 @@ export class AddDsrComponent implements OnInit {
         if (Array.isArray(allProducts)) {
           allProducts.forEach(x => x.quantity = '');
           this.dataSource.data = allProducts;
+
           this.retainedproducts.subscribe((ngrxData: any[]) => {
             this.dataSource.data.forEach((product) => {
               const ngrxProduct = ngrxData.find((item) => item.id === product.id);
@@ -125,6 +126,8 @@ export class AddDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbydistributor(this.distributorid).subscribe({
         next: (data) => {
           this.retailorNames = data;
+          this.retailorService.saveRetailorDetails(this.retailorNames);
+
           this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
         },
         error: (error) => {
@@ -139,6 +142,8 @@ export class AddDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbyexecutive(this.ExecutiveId).subscribe({
         next: (data) => {
           this.retailorNames = data;
+          this.retailorService.saveRetailorDetails(this.retailorNames);
+
           this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
         },
         error: (error) => {
