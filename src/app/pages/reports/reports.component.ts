@@ -32,8 +32,9 @@ export class ReportsComponent implements OnInit {
 
   fetchSalesReport() {
     this.salesReportService.getSalesReport(this.selectedArea, this.endDate)
-      .subscribe((data: Reports[]) => {
+      .subscribe((data: any[]) => {
         this.salesReports = data;
+        this.salesReportService.saveReports(this.salesReports);
         this.noDataFound = data.length === 0; 
       });
   }
@@ -42,6 +43,7 @@ export class ReportsComponent implements OnInit {
     this.salesReportService.getAreas()
       .subscribe((data: Areas[]) => {
         this.areas = data;
+        this.salesReportService.saveAreas(this.areas);
         this.sortAreas();
       });
   }
