@@ -42,6 +42,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             this.notificationService.getNotificationsByExecutiveId(userId).subscribe(
               (data: any[]) => {
                 this.notifications = data;
+                this.notificationService.saveNotification(this.notifications);
+
+                
               },
               (error) => {
                 console.error('Error fetching executive notifications:', error);

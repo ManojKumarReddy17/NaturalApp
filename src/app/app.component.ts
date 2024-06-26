@@ -7,13 +7,8 @@ import { MenuComponent } from './Components/menu/menu.component';
 import { ProfileComponent } from './Components/profile/profile.component';
 import { Location } from '@angular/common';
 import { Platform } from '@ionic/angular';
-import { ViewChild } from '@angular/core';
 import { App } from '@capacitor/app';
 import { RXDBService } from '../Service/rxdb.service';
-
-
-
-
 
 @Component({
   selector: 'app-root',
@@ -33,10 +28,8 @@ initializeApp(){
   this.platform.ready().then(() => {
     App.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {
-        // Navigate back in the web view history
         this.location.back();
       } else {
-        // Show a confirmation dialog before exiting the app
         if (confirm('Are you sure you want to exit the app?')) {
           App.exitApp();
         }

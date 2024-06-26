@@ -46,6 +46,8 @@ export class EditDsrComponent implements OnInit {
   RetailerName:any;
   orderDate:Date;
   id:any;
+  sessionKey = `productDetails`;
+ sessionData = sessionStorage.getItem(this.sessionKey);
 
   constructor(
     private productService: ProductService,
@@ -57,6 +59,7 @@ export class EditDsrComponent implements OnInit {
   ) {
     this.retainedproducts$ = this.store.pipe(select(selectProducts));
     this.getRetailorNamesByDistributor();
+   
   }
 
   ngOnInit(): void {
@@ -100,16 +103,8 @@ export class EditDsrComponent implements OnInit {
         if (Array.isArray(allProducts)) {
           allProducts.forEach(x => x.quantity = '');
           this.dataSource.data = allProducts;
-          const sessionKey = `productDetails`;
-          const sessionData = sessionStorage.getItem(sessionKey);
-          if (sessionData != null) {
-            const productDetails: ProductDetails = JSON.parse(sessionData);
-            this.selectedRetailer = productDetails.retailor;
-            this.orderDate = productDetails.createdDate;
-            this.retailorlist.id;
-            console.log(this.retailorlist.id)
-            console.log(this.selectedRetailer);
-            console.log(this.orderDate);
+          if (this.sessionData != null) {
+            const productDetails: ProductDetails = JSON.parse(this.sessionData);
             this.dataSource.data.forEach((product) => {
               const singleProduct = productDetails.product.find((item) => item.product === product.productName);
               if (singleProduct) {
@@ -118,7 +113,7 @@ export class EditDsrComponent implements OnInit {
                 product.subtotal = singleProduct.price * singleProduct.quantity;
               }
             });
-            sessionStorage.removeItem(sessionKey);
+            sessionStorage.removeItem(this.sessionKey);
           }
         }
       },
@@ -220,10 +215,15 @@ export class EditDsrComponent implements OnInit {
 
   filterRetailers(): any[] {
     if (!this.selectedArea || !this.retailorNames) {
+      const details: ProductDetails = JSON.parse(this.sessionData);
+      this.selectedRetailer = this.retailorNames.find((item) => item.id == details.rId);
       return this.retailorNames;
     } else {
       return this.retailorNames.filter(retailer => retailer.area === this.selectedArea);
     }
+  }
+  setdefaultretailor() {
+    
   }
 
   onAreaChange(selectedArea: string): void {

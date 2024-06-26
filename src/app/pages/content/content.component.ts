@@ -79,6 +79,8 @@ export class ContentComponent implements OnInit {
       next: (data: RetailorDetails[] | RetailorDetails) => {
         if (Array.isArray(data)) {
           this.retailorList = data;
+          this.retailorDetailService.saveRetailorDetails(this.retailorList);
+
           this.DSRCount = this.retailorList.length;
           this.filteredRetailorList = this.retailorList.slice();
           this.applyFilter('');
@@ -95,6 +97,8 @@ export class ContentComponent implements OnInit {
       next: (data: RetailorDetails[] | RetailorDetails) => {
         if (Array.isArray(data)) {
           this.retailorList = data;
+          this.retailorDetailService.saveRetailorDetails(this.retailorList);
+
           this.DSRCount = this.retailorList.length;
           this.filteredRetailorList = this.retailorList.slice();
           this.applyFilter('');
@@ -151,6 +155,8 @@ applyCombinedFilter() {
       next: (retailorListDetails: RetailorDetails[] | RetailorDetails) => {
         if (Array.isArray(retailorListDetails)) {
           this.retailorList = retailorListDetails;
+          this.retailorDetailService.saveRetailorDetails(this.retailorList);
+
           this.filteredRetailorList = this.retailorList.slice();
           this.applyFilter('');
         }
