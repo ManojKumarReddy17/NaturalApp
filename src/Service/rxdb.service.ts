@@ -15,12 +15,10 @@ import allretailorDetails from '../Schemas/Retailor_Details';
 import { ProductDetails } from '../app/Models/product-details';
 import alldsrDetails from '../Schemas/DsrDetails';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class RXDBService {
   userDetailCollection: RxCollection<UserDetails,any,any>;
   productCollection: RxCollection<Product,any,any>;
