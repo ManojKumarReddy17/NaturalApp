@@ -82,6 +82,7 @@ export class ProductsComponent implements OnInit {
       next: (allProducts: Product[] | Product) => {
         this.allProducts = Array.isArray(allProducts) ? allProducts : [allProducts];
         this.filteredList = [...this.allProducts]; 
+        this.productService.saveProducts(this.filteredList)
         this.loading = false; 
       },
       error: (error) => {
