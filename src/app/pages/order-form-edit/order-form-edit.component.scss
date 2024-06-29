@@ -31,24 +31,24 @@
 
   
   .submit-button {
-        background-color: #fbce07; 
-        border-color: red;
-        border-radius: 30px;
-        width:100px;
-        color:black;
-        font-weight: bold;
-        padding: 10px;
-        cursor: pointer;
-        position: absolute;
-        right: 20px;
-        font-size: 15px;
-        margin-top: 10px;
+    background-color: #fbce07; 
+    border-color: red;
+    border-radius: 30px;
+    width:100px;
+    color:black;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    font-size: 15px;
+    margin-top: 200px;
   }
-  
-  .submit-button:hover {
-    background-color: white; 
-    color: black; 
-  }
+
+.submit-button:hover {
+background-color: white; 
+color: black; 
+}
   .back-button {
     padding: 0; 
     background-color: transparent; 

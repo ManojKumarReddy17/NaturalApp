@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,7 +17,7 @@ import { addProducts, loadProductDetails, updatedProducts } from '../../../Store
 import { AppState } from '../../../Store/appstate';
 import { ProductDetails } from '../../Models/product-details';
 import { RetailorDetails } from '../../Models/retailor-details';
-
+import { orderformsession } from '../../Models/orderformsession';
 @Component({
   selector: 'app-edit-dsr',
   standalone: true,
@@ -48,7 +47,6 @@ export class EditDsrComponent implements OnInit {
   id:any;
   sessionKey = `productDetails`;
  sessionData = sessionStorage.getItem(this.sessionKey);
-
   constructor(
     private productService: ProductService,
     private activeRoute: ActivatedRoute,
@@ -59,7 +57,23 @@ export class EditDsrComponent implements OnInit {
   ) {
     this.retainedproducts$ = this.store.pipe(select(selectProducts));
     this.getRetailorNamesByDistributor();
-   
+    
+    
+    const retailor = JSON.parse(sessionStorage.getItem('selectedRetailor'));
+    if(retailor == null || retailor == ''){
+      const sessionData = sessionStorage.getItem('infoButtonClickSubject');
+         const retailorData = JSON.parse(sessionData);
+         this.selectedArea = retailorData.area;
+         this.selectedRetailer = retailorData.rId;
+        this.selectedDate = retailorData.createdDate;
+    }
+    else{
+      this.selectedArea = retailor.area;
+         this.selectedRetailer = retailor.id;
+        this.selectedDate = JSON.parse(sessionStorage.getItem('selectedDateValue'));
+    }
+       
+    
   }
 
   ngOnInit(): void {
@@ -86,7 +100,7 @@ export class EditDsrComponent implements OnInit {
         this.retailorlist = retailorlist;
         console.log(retailorlist);
         this.retailorArea = retailorlist.area;
-        this.id = retailorlist.id; 
+        this.id = retailorlist.id;
       }
     });
 
@@ -104,16 +118,21 @@ export class EditDsrComponent implements OnInit {
           allProducts.forEach(x => x.quantity = '');
           this.dataSource.data = allProducts;
           if (this.sessionData != null) {
-            const productDetails: ProductDetails = JSON.parse(this.sessionData);
+            const productDetails= JSON.parse(this.sessionData);
             this.dataSource.data.forEach((product) => {
-              const singleProduct = productDetails.product.find((item) => item.product === product.productName);
+              let singleProduct: any
+              if(productDetails.product != null){
+                singleProduct = productDetails.product.find((item) =>item.productId === product.id);
+              }
+              else{
+                singleProduct = productDetails.find((item) => item.id === product.id)
+              }
               if (singleProduct) {
                 product.price = singleProduct.price,
                 product.quantity = singleProduct.quantity,
                 product.subtotal = singleProduct.price * singleProduct.quantity;
               }
             });
-            sessionStorage.removeItem(this.sessionKey);
           }
         }
       },
@@ -161,21 +180,12 @@ export class EditDsrComponent implements OnInit {
     const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
     console.log(selectedProducts);
     console.log(this.selectedRetailer);
-    console.log(this.id); 
-
-    this.saveProductsToSession(selectedProducts);
+    const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
+    sessionStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
+    sessionStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
+    sessionStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
 
     this.productService.DisplaySelectedProducts(selectedProducts);
-    selectedProducts.forEach(products => {
-      try {
-        this.store.dispatch(addProducts({ products }));
-        this.store.dispatch(updatedProducts({ products: [products] }));
-        console.log("Inserted the values into store");
-      } catch (error) {
-        console.error(error);
-      }
-    });
-
     this.router.navigate(['/Edit', this.distributorid, 'Orderform'],
       {
         queryParams: {
@@ -223,9 +233,7 @@ export class EditDsrComponent implements OnInit {
     }
   }
   setdefaultretailor() {
-    
   }
-
   onAreaChange(selectedArea: string): void {
     this.selectedArea = selectedArea;
     if (!selectedArea) {
@@ -239,11 +247,12 @@ export class EditDsrComponent implements OnInit {
     };
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-
   private saveProductsToSession(selectedProducts: Product[]): void {
     sessionStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+   
+   
   }
+
 
   private loadProductsFromSession(): void {
     const savedProducts = sessionStorage.getItem('selectedProducts');
@@ -251,5 +260,7 @@ export class EditDsrComponent implements OnInit {
       this.dataSource.data = JSON.parse(savedProducts);
       sessionStorage.removeItem('selectedProducts');
     }
+    
   }
+
 }

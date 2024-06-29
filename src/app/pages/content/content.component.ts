@@ -83,6 +83,7 @@ export class ContentComponent implements OnInit {
 
           this.DSRCount = this.retailorList.length;
           this.filteredRetailorList = this.retailorList.slice();
+          console.log(this.filteredRetailorList);
           this.applyFilter('');
         }
       },

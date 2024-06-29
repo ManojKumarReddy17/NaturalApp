@@ -34,7 +34,10 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
     private dsrservice: DsrService,
     private store: Store<productDetails[]>,
     private router: Router
-  ) {}
+  ) {
+    sessionStorage.removeItem('selectedRetailor');
+    sessionStorage.removeItem('selectedDateValue');
+  }
   ngOnInit(): void {
     const savedRetailorDetails = this.retailorService.getUserDetailsFromSessionStorage();
     if (savedRetailorDetails) {

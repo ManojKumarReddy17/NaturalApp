@@ -1,7 +1,7 @@
 <h1 class="heading">REVIEW FORM</h1>
 <section class="section-container">
   <p class="selected-area">Selected Area: {{selectedArea}}</p>
-  <p class="selected-retailer">Selected Retailer: {{selectedRetailer?.firstName}} {{selectedRetailer?.lastName}}</p>
+  <p class="selected-retailer">Selected Retailer:{{selectedRetailer}} {{selectedRetailer?.firstName}} {{selectedRetailer?.lastName}}</p>
   <div>
     <h4>Date: {{ selectedDate | date }}</h4>
   </div>
@@ -53,8 +53,23 @@
 <mat-icon class="back-button" (click)="goback()">keyboard_backspace</mat-icon>
 
 <button class="submit-button" (click)="submit()">Submit</button>
-<div *ngIf="successMessage" class="success-popup">
+<!-- <div *ngIf="successMessage" class="success-popup">
   <div class="popup-content">
     <p>{{ successMessage }}</p>
-    <button mat-button (click)="successMessage = ''">Close</button>
+    <button mat-button (click)="successMessage = ''"(click)="closePopup()">Close</button>
+  </div> -->
+
+  <div *ngIf="successMessage" class="success-popup">
+    <div class="popup-content">
+      <p>{{ successMessage }}</p>
+      <button mat-button (click)="closePopup()">Close</button>
+    </div>
   </div>
+  <!-- <div *ngIf="successMessage" class="success-popup">
+    <div class="popup-content">
+      <p>{{ successMessage }}</p>
+      <button mat-button (click)="closePopup()">Close</button>
+    </div>
+  </div> -->
+
+  
