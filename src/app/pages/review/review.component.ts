@@ -3,19 +3,25 @@ import { Location } from '@angular/common';
 import { MaterialModule } from '../../material.module';
 import { Product } from '../../Models/product';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ResponsiveDirective } from '../../responsive.directive';
 import { ProductService } from '../../../Service/product.service';
-import { Observer } from 'rxjs';
+import { Observable, Observer, single } from 'rxjs';
 import { ProductDetails } from '../../Models/product-details';
 import { DsrService } from '../../../Service/dsr.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../Store/appstate';
 import { AutherizationService } from '../../../Service/autherization.service';
 import { UserDetails } from '../../Models/user-details';
 import { DistributorService } from '../../../Service/distributor.service';
 import { ProfileService } from '../../../Service/profile.service';
 import { MatDialog } from '@angular/material/dialog';
+import { orderformsession } from '../../Models/orderformsession';
+//import { clear } from 'console';
+import { selectProducts } from '../../../Store/selector';
+import { removeProduct } from '../../../Store/actions';
+import { addProducts, updatedProducts, clear, removeProductDetails } from '../../../Store/actions';
+
 
 @Component({
   selector: 'app-review',
@@ -38,24 +44,34 @@ export class ReviewComponent implements OnInit {
   role: string;
   exeId: string;
   successMessage: string;
+  distributorid: string;
+   products: Observable<any>; 
+  removeProductDetails: any;
+   
+  
+   
+   
+  
 
   constructor(
     private productService: ProductService,
     private activeRoute: ActivatedRoute,
-
+    private router: Router,
     private authService: AutherizationService,
     private location: Location,
     private dsrService: DsrService,
-    private store: Store<AppState>,
+    private store: Store<Product[]>,
     private userDetailsService: ProfileService 
   ) {
-    this.activeRoute.queryParams.subscribe((params: any) => {
-      this.selectedRetailer = params.retailer ? JSON.parse(params.retailer) : {};
-      this.selectedArea = params.area;
-      this.selectedDate = params.date ? new Date(params.date) : new Date();
-      this.selectedProducts = params.products ? JSON.parse(params.products) : [];
-      this.dataSource.data = this.selectedProducts;
-    });
+    
+    const sessionData = sessionStorage.getItem('orderFormSession');
+    
+      const orderFormSession: orderformsession = JSON.parse(sessionData);
+      this.selectedRetailer = orderFormSession.retailor[0].firstName +' '+orderFormSession.retailor[0].lastName;
+      this.selectedArea = orderFormSession.aId;
+      this.selectedDate = orderFormSession.createdDate;
+       this.products  = this.store.pipe(select(selectProducts));
+       console.log(this.products);
   }
 
   ngOnInit(): void {
@@ -105,14 +121,16 @@ export class ReviewComponent implements OnInit {
 
   submit() {
     this.UpdatedProducts.product = [];
-
+    
     this.productdetails.forEach(data => {
       this.UpdatedProducts.product.push({
         product: data.id,
         price: data.price,
         quantity: data.quantity,
-        dsr: data.dsr
+        dsr: data.dsr,
+        
       });
+      
     });
 
     if (this.id.startsWith('NDIS')) {
@@ -160,6 +178,19 @@ export class ReviewComponent implements OnInit {
     };
 
     this.dsrService.Postproducts(this.UpdatedProducts).subscribe(observer);
+     this.store.dispatch(clear());
   }
+  loadFromSessionStorage(): void {
+    
+    
+  }
+  closePopup() {
+    sessionStorage.removeItem('orderFormSession');
+    
+    this.router.navigate(['/Menu'])
+  }
+  
+ 
 }
-0
+
+

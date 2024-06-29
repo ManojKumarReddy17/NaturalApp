@@ -11,6 +11,7 @@ totalAmount: number;
 createdDate:Date;
 dsr:any;
 product:productDetails[]=[];   
+  area: string;
 
 }
 export interface productDetails{

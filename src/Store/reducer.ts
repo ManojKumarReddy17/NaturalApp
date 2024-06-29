@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { AppState } from "./appstate";
-import { addProductDetails, addProducts, removeProduct, removeProductDetails, updateProductDetails, updatedProducts } from "./actions";
+import { addProductDetails, addProducts, clear, removeProduct, removeProductDetails, updateProductDetails, updatedProducts } from "./actions";
 import { Product } from "../app/Models/product";
 
 export const initialState: AppState = {
@@ -25,6 +25,10 @@ export const productReducer = createReducer(
     ...state,
     products: state.products.filter(p => p.id !== products.id)
   })),
+  on(clear, state => ({
+    ...state,
+    products: []
+  })),
   on(addProductDetails, (state, { productDetails }) => ({
     ...state,
     productdetails: [...state.productdetails, productDetails] 
@@ -37,5 +41,6 @@ export const productReducer = createReducer(
   on(removeProductDetails, (state, { productId }) => ({
     ...state,
     productdetails: state.productdetails.filter(pd => pd.dsr !== productId)
-  }))
+  })),
+  
 );

@@ -40,7 +40,7 @@ constructor(private httpclient:HttpclentwrapperService,private rxdbservice:RXDBS
   return this.httpclient.delete(url);
 }
 editProduct(prod: ProductDetails): Observable<ProductDetails> {
-  return this.httpclient.put<ProductDetails>(`${this.ApiUrl}/${prod.id}`, prod);
+  return this.httpclient.put<ProductDetails>(`${this.ApiUrl}/${prod.dsr}`, prod);
 }
 async saveDsrDetails(data : any[]){
   try {

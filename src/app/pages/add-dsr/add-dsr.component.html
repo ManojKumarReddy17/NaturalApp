@@ -3,7 +3,7 @@
 
     <form [formGroup]="dateForm">
       <mat-form-field class="Datepicker">
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="selectedDate" class="input-field">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDateValue" formControlName="selectedDate" class="input-field">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -31,7 +31,7 @@
       <mat-select id="retailerSelect" [(ngModel)]="selectedRetailer"  [disabled]="!selectedArea">
         <mat-option [value]="undefined">-- None --</mat-option> 
 
-        <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer">{{ retailer.firstName }} {{retailer.lastName}}</mat-option>
+        <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer.id">{{ retailer.firstName }} {{retailer.lastName}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -47,7 +47,9 @@
 </div>
 
 
-<section class="tab">
+
+<section class="tab
+">
   <table mat-table [dataSource]="dataSource" class="custom-table">
     <ng-container matColumnDef="productName">
       <th mat-header-cell *matHeaderCellDef class="custom-header">Product</th>
@@ -104,5 +106,86 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
   </table>
-  </section>
+ 
   
+  <!-- <div class="flex-container">
+    <form [formGroup]="dateForm">
+      <mat-form-field class="Datepicker">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="selectedDate" class="input-field">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="selectedDate?.hasError('invalidDate') && !selectedDate?.hasError('required')" class="invaliddate">
+        <mat-error>select within last 3 days</mat-error>
+      </div>
+    </form>
+  
+    <div class="flex-item">
+      <mat-form-field class="Dropdown area">
+        <mat-label for="areaSelect">Area</mat-label>
+        <mat-select id="areaSelect" [(ngModel)]="selectedArea" (selectionChange)="onAreaChange($event.value)">
+          <mat-option [value]="undefined">-- None --</mat-option>
+          <mat-option *ngFor="let area of areas" [value]="area">{{area}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <div class="flex-item">
+      <mat-form-field class="Dropdown retailor">
+        <mat-label for="retailerSelect">Retailer</mat-label>
+        <mat-select id="retailerSelect" [(ngModel)]="selectedRetailer" [disabled]="!selectedArea">
+          <mat-option [value]="undefined">-- None --</mat-option>
+          <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer">{{ retailer.firstName }} {{retailer.lastName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <div>
+      <mat-form-field class="searchfilter">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Filter</mat-label>
+        <input matInput placeholder="Product Name" #input (keyup)="applyFilter(input.value)">
+      </mat-form-field>
+    </div>
+  
+    <section class="tab">
+      <table mat-table [dataSource]="dataSource" class="custom-table">
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Product</th>
+          <td mat-cell *matCellDef="let product" class="custom-cell">{{product.productName}} ({{product.weight}}gms)</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+    
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Price</th>
+          <td mat-cell *matCellDef="let product" class="custom-cell">
+            <input type="number" [(ngModel)]="product.price" class="custom-input" #productPrice (input)="calculatePricetotal(product, productPrice.value)" (focus)="scrollToTable()" />
+          </td>
+          <td mat-footer-cell *matFooterCellDef>Total value</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Quantity</th>
+          <td mat-cell *matCellDef="let product" class="custom-cell">
+            <input type="number" [(ngModel)]="product.quantity" #quantityInput class="custom-input" (input)="calculateSubtotal(product, quantityInput.value)" (focus)="scrollToTable()" />
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+    
+        <ng-container matColumnDef="productTotal">
+          <th mat-header-cell *matHeaderCellDef class="custom-header">Subtotal</th>
+          <td mat-cell *matCellDef="let product" class="custom-cell subdesign">
+            <input type="number" [ngModel]="product.subtotal" class="custom-input" disabled />
+          </td>
+          <td mat-footer-cell *matFooterCellDef>
+            {{calculateTotal()}}
+            <button mat-button class="custom-primary-button" (click)="review()">Review</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+      </table>
+    </section>
+  </div> -->
