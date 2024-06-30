@@ -43,7 +43,7 @@ export class AddDsrComponent implements OnInit {
   selectedRetailer: any;
   selectedArea: string | undefined;
   retainedproducts: Observable<any>;
-  selectedDateValue: Date;
+  selectedDateValue: Date = new Date();
  
 
   dateForm = new FormGroup({
@@ -104,10 +104,10 @@ export class AddDsrComponent implements OnInit {
 
   getProducts(): void {
     this.productService.getProducts().subscribe({
-      next: (allProducts: Product[] | Product) => {
-        if (Array.isArray(allProducts)) {
-          allProducts.forEach(x => x.quantity = '');
-          this.dataSource.data = allProducts;
+      next: (allProducts: {items:Product[] | Product}) => {
+        if (Array.isArray(allProducts.items)) {
+          allProducts.items.forEach(x => x.quantity = '');
+          this.dataSource.data = allProducts.items;
           this.retainedproducts.subscribe((ngrxData: any[]) => {
             this.dataSource.data.forEach((product) => {
               const ngrxProduct = ngrxData.find((item) => item.id === product.id);
@@ -206,14 +206,7 @@ export class AddDsrComponent implements OnInit {
     const selectedDate = this.selectedDate?.value;
 
     this.saveToSessionStorage();
-    this.router.navigate(['/CreateDSR', this.distributorid, 'Review'], {
-      queryParams: {
-        products: JSON.stringify(selectedProducts),
-        retailer: JSON.stringify(this.selectedRetailer),
-        area: this.selectedArea,
-        date: selectedDate
-      }
-    });
+    this.router.navigate(['/CreateDSR', this.distributorid, 'Review'])
   }
 
   setupHardwareBackButton(): void {
@@ -254,14 +247,13 @@ export class AddDsrComponent implements OnInit {
     this.location.back();
   }
   
-
   saveToSessionStorage(): void {
     
     const orderFormSession: orderformsession = {
       rId: this.selectedRetailer || '',
       aId: this.selectedArea || '',
       
-       createdDate: this.selectedDateValue,
+      createdDate: this.selectedDateValue,
       retailor: this.retailorNames.filter((item) => item.id === this.selectedRetailer),
       area: this.selectedArea ? [{ id: '', areaName: this.selectedArea }] : [],
        

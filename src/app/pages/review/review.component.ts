@@ -134,12 +134,12 @@ export class ReviewComponent implements OnInit {
     });
 
     if (this.id.startsWith('NDIS')) {
-    
+      const sessionData = JSON.parse(sessionStorage.getItem('orderFormSession'));
       this.UpdatedProducts.distributor = this.id;
       this.UpdatedProducts.executive = this.exeId;
-      this.UpdatedProducts.retailor = this.selectedRetailer.id;
+      this.UpdatedProducts.retailor = sessionData.rId;
       this.UpdatedProducts.orderBy = this.id;
-      this.UpdatedProducts.createdDate = new Date();
+      this.UpdatedProducts.createdDate = sessionData.createdDate;
       
     } else if (this.id.startsWith('NEXE')) {
       

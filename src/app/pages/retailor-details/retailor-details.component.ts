@@ -93,8 +93,8 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
     this.showSuccessMessage = true;
     setTimeout(() => {
       this.showSuccessMessage = false;
-      this.router.navigateByUrl('').then(() => {
-        this.router.navigate(['']);
+      this.router.navigateByUrl('/Menu').then(() => {
+        this.router.navigate(['/Menu']);
       });
     }, 3000); 
   }

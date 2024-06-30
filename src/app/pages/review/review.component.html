@@ -3,7 +3,7 @@
   <p class="selected-area">Selected Area: {{selectedArea}}</p>
   <p class="selected-retailer">Selected Retailer:{{selectedRetailer}} {{selectedRetailer?.firstName}} {{selectedRetailer?.lastName}}</p>
   <div>
-    <h4>Date: {{ selectedDate | date }}</h4>
+    <h4>Date: {{selectedDate}}</h4>
   </div>
   <div *ngIf="role === 'distributor'">
     <p class="user-role">User Role: Distributor</p>
