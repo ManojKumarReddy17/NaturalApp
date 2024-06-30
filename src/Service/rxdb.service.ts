@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RxCollection, RxCollectionCreator, RxDatabase, addRxPlugin, createRxDatabase } from 'rxdb';
+import { RxCollection,RxCollectionCreator, RxDatabase,addRxPlugin,createRxDatabase } from 'rxdb';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import details from '../Schemas/Userdetails';
 import allProducts from '../Schemas/Products';
@@ -25,8 +25,14 @@ export class RXDBService {
   notificationCollection: RxCollection<Notification,any,any>
   reportsCollection: RxCollection<Reports,any,any>
   areasCollection: RxCollection<Areas,any,any>
+<<<<<<< Updated upstream
   dsrCollection:RxCollection<ProductDetails,any,any>;
   retailorCollection: RxCollection<RetailorDetails,any,any>;
+=======
+
+  retailorCollection: RxCollection<RetailorDetails,any,any>;
+  dsrCollection:RxCollection<ProductDetails,any,any>;
+>>>>>>> Stashed changes
   constructor() { }
 
     db:RxDatabase |null = null;
@@ -45,7 +51,12 @@ export class RXDBService {
       }
 
       async addCollections(){
+<<<<<<< Updated upstream
         const {user, prod, notifi, retailors, dsr,reports,areas} = await this.db.addCollections({
+=======
+        const {user, prod, notifi,reports,areas,retailors,dsr} = await this.db.addCollections({
+
+>>>>>>> Stashed changes
           user : {
             schema : details
           },
@@ -55,7 +66,11 @@ export class RXDBService {
           notifi:{
             schema : allNotifications
           },
+<<<<<<< Updated upstream
                     reports:{
+=======
+          reports:{
+>>>>>>> Stashed changes
             schema:allreports
           },
           areas:{

@@ -14,8 +14,6 @@ import { ProductViewComponent } from './pages/product-view/product-view.componen
 import { EditDsrComponent } from './pages/edit-dsr/edit-dsr.component';
 import { OrderformEditComponent } from './pages/order-form-edit/order-form-edit.component';
 
-
-
 export const routes: Routes = 
 [
     { path: '', component: ProductsComponent },
