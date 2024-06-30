@@ -113,10 +113,10 @@ export class EditDsrComponent implements OnInit {
 
   getProducts(): void {
     this.productService.getProducts().subscribe({
-      next: (allProducts: Product[] | Product) => {
-        if (Array.isArray(allProducts)) {
-          allProducts.forEach(x => x.quantity = '');
-          this.dataSource.data = allProducts;
+      next: (allProducts: {items:Product[] | Product}) => {
+        if (Array.isArray(allProducts.items)) {
+          allProducts.items.forEach(x => x.quantity = '');
+          this.dataSource.data = allProducts.items;
           if (this.sessionData != null) {
             const productDetails= JSON.parse(this.sessionData);
             this.dataSource.data.forEach((product) => {

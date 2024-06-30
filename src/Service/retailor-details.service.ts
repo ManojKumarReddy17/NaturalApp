@@ -57,7 +57,7 @@ export class RetailorDetailsService {
     return this.httpClient.get(`${this.assignedRetailorsbyexecutiveUrl}/${id}`);
   }
   getRetailorsListByDate(distributorid: string, date: string): Observable<RetailorDetails[]> {
-    const url = `http://3.110.27.195:5024/api/Dsr/RetailorDetails/${distributorid}/${date}`;
+    const url = `Dsr/RetailorDetails/${distributorid}/${date}`;
     return this.httpClient.get<RetailorDetails[]>(url);
   }
   async saveRetailorDetails(data : any[]){

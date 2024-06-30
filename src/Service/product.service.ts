@@ -21,8 +21,8 @@ export class ProductService {
     
   }
 
-  getProducts(): Observable<Product[]> {
-    return this.clent.get<Product[]>(this.ApiUrl);
+  getProducts(): Observable<{ items: Product[] }> {
+    return this.clent.get<{ items: Product[] }>(this.ApiUrl);
   }
   
 

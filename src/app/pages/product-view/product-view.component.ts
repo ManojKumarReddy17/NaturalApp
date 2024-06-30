@@ -31,8 +31,8 @@ export class ProductViewComponent implements OnInit {
     this.loading = true;
 
     this.productService.getProducts().subscribe({
-      next: (allProducts: Product[] | Product) => {
-        this.allProducts = Array.isArray(allProducts) ? allProducts : [allProducts];
+      next: (allProducts: { items: Product[] }) => {
+        this.allProducts = Array.isArray(allProducts.items) ? allProducts.items : [allProducts.items];
         this.filteredList = [...this.allProducts]; 
         this.loading = false; 
       },
