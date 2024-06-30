@@ -20,7 +20,7 @@ export class ProductViewComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private location: Location  // Ensure Location is correctly injected
+    private location: Location  
   ) {}
 
   ngOnInit() {
