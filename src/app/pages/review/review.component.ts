@@ -142,12 +142,12 @@ export class ReviewComponent implements OnInit {
       this.UpdatedProducts.createdDate = sessionData.createdDate;
       
     } else if (this.id.startsWith('NEXE')) {
-      
+      const sessionData = JSON.parse(sessionStorage.getItem('orderFormSession'));
       this.UpdatedProducts.executive = this.id;
-      this.UpdatedProducts.distributor = this.selectedRetailer.distributor;
-      this.UpdatedProducts.retailor = this.selectedRetailer.id;
+      this.UpdatedProducts.distributor = sessionData.retailor[0].distributor;
+      this.UpdatedProducts.retailor = sessionData.rId;
       this.UpdatedProducts.orderBy = this.id;
-      this.UpdatedProducts.createdDate = new Date();
+      this.UpdatedProducts.createdDate = sessionData.createdDate;
     }
 
     this.UpdatedProducts.totalAmount = this.calculatetotal();
