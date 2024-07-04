@@ -78,22 +78,27 @@ export class EditDsrComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupHardwareBackButton();
-    this.activeRoute.paramMap.subscribe((params: ParamMap) => {
-      this.distributorid = params.get('id');
-      this.ExecutiveId = params.get('id');
-      const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    if(userinfo.id.startsWith('NDIS')){
       this.distributorid = userinfo.id;
-      console.log(this.distributorid);
-      const id = this.distributorid || this.ExecutiveId;
-
-      if (this.distributorid && this.distributorid.startsWith('NDIS')) {
-        this.getRetailorNamesByDistributor();
-      } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
-        this.getRetailorNamesByExecutive();
-      }
-
-      this.getProducts();
-    });
+    }
+    else if(userinfo.id.startsWith('NEXE')){
+      this.ExecutiveId= userinfo.id
+    }
+    if (this.distributorid && this.distributorid.startsWith('NDIS')) {
+      this.getRetailorNamesByDistributor();
+    } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
+      this.getRetailorNamesByExecutive();
+    }
+    this.getProducts();
+    // this.activeRoute.paramMap.subscribe((params: ParamMap) => {
+    //   this.distributorid = params.get('id');
+    //   this.ExecutiveId = params.get('id');
+    //   const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    //   this.distributorid = userinfo.id;
+    //   console.log(this.distributorid);
+    //   const id = this.distributorid || this.ExecutiveId;
+    // });
 
     this.subscription = this.retailorService.infoButtonClick$.subscribe((retailorlist: RetailorDetails) => {
       if (!this.isRetailorAlreadyPresent(retailorlist)) {
@@ -195,6 +200,7 @@ export class EditDsrComponent implements OnInit {
           rId: this.id
         }
       });
+      
   }
 
   calculateSubtotal(product: any, newQuantity: string): void {
