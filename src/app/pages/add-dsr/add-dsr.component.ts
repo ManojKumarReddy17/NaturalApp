@@ -101,6 +101,12 @@ export class AddDsrComponent implements OnInit {
     };
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  clearInput(input: HTMLInputElement): void {
+    input.select();
+    // input.value = '';
+    // this.applyFilter('');
+   
+  }
 
   getProducts(): void {
     this.productService.getProducts().subscribe({
