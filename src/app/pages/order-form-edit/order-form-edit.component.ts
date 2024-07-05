@@ -1,3 +1,5 @@
+
+  
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MaterialModule } from '../../material.module';
@@ -63,15 +65,15 @@ export class OrderformEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activeRoute.paramMap.subscribe(params => {
-      this.id = params.get('id');
-
-      if (this.id.startsWith('NDIS')) {
-        this.role = 'distributor';
-      } else if (this.id.startsWith('NEXE')) {
-        this.role = 'executive';
-      }
-    });
+    const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    if(userinfo.id.startsWith('NDIS')){
+      this.id = userinfo.id;
+      this.role = 'distributor';
+    }
+    else if(userinfo.id.startsWith('NEXE')){
+      this.id= userinfo.id;
+      this.role = 'executive';
+    }
 
     this.userDetailsService.getUserDetails().subscribe((userDetails: UserDetails) => {
       this.exeId = userDetails.exeId;  
@@ -122,12 +124,21 @@ export class OrderformEditComponent implements OnInit {
         dsr: dsrId.id
       });
     });
-
-    this.UpdatedProducts.distributor = disIdAndexeId.id;
+    if(this.id.startsWith('NDIS')){
+      this.UpdatedProducts.distributor = disIdAndexeId.id;
     this.UpdatedProducts.dsr = dsrId.id;
     this.UpdatedProducts.executive = disIdAndexeId.exeId;
     this.UpdatedProducts.retailor = retailor.id;
     this.UpdatedProducts.orderBy = disIdAndexeId.id;
+    }
+    if(this.id.startsWith('NEXE')){
+      this.UpdatedProducts.executive = disIdAndexeId.id;
+      this.UpdatedProducts.dsr = dsrId.id;
+      this.UpdatedProducts.distributor = retailor.distributor;
+      this.UpdatedProducts.retailor = retailor.id;
+    this.UpdatedProducts.orderBy = disIdAndexeId.id;
+    }
+    
     this.UpdatedProducts.createdDate = selectedDate;
     this.UpdatedProducts.totalAmount = this.calculatetotal();
 

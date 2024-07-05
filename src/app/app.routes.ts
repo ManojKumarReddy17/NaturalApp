@@ -38,7 +38,7 @@ export const routes: Routes =
     { path: 'CreateDSR/:id/Review', component: ReviewComponent },
     {path:'Productview',component:ProductViewComponent},
     {path:'Edit',component:EditDsrComponent},
-    { path:'Edit/:id/Orderform', component:OrderformEditComponent},
+    { path:'Edit/Orderform', component:OrderformEditComponent},
 
 ];
 

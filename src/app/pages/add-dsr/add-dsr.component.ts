@@ -91,7 +91,7 @@ export class AddDsrComponent implements OnInit {
         this.getRetailorNamesByExecutive();
       }
 
-      this.loadFromSessionStorage();
+      this.loadFromsessionStorage();
     });
   }
 
@@ -211,7 +211,7 @@ export class AddDsrComponent implements OnInit {
     });
     const selectedDate = this.selectedDate?.value;
 
-    this.saveToSessionStorage();
+    this.saveTosessionStorage();
     this.router.navigate(['/CreateDSR', this.distributorid, 'Review'])
   }
 
@@ -253,7 +253,7 @@ export class AddDsrComponent implements OnInit {
     this.location.back();
   }
   
-  saveToSessionStorage(): void {
+  saveTosessionStorage(): void {
     
     const orderFormSession: orderformsession = {
       rId: this.selectedRetailer || '',
@@ -267,7 +267,7 @@ export class AddDsrComponent implements OnInit {
     sessionStorage.setItem('orderFormSession', JSON.stringify(orderFormSession));
   }
 
-  loadFromSessionStorage(): void {
+  loadFromsessionStorage(): void {
     const sessionData = sessionStorage.getItem('orderFormSession');
     if (sessionData) {
       const orderFormSession: orderformsession = JSON.parse(sessionData);
@@ -279,7 +279,7 @@ export class AddDsrComponent implements OnInit {
     }
   }
 
-  resetSessionStorage(): void {
+  resetsessionStorage(): void {
     sessionStorage.removeItem('orderFormSession');
   }
 }

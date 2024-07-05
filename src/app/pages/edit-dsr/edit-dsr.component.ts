@@ -191,15 +191,9 @@ export class EditDsrComponent implements OnInit {
     sessionStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
 
     this.productService.DisplaySelectedProducts(selectedProducts);
-    this.router.navigate(['/Edit', this.distributorid, 'Orderform'],
-      {
-        queryParams: {
-          products: JSON.stringify(selectedProducts),
-          retailer: JSON.stringify(this.selectedRetailer),
-          area: this.selectedArea,
-          rId: this.id
-        }
-      });
+ 
+    this.router.navigate(['/Edit','Orderform']);
+   
       
   }
 

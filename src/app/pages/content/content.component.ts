@@ -125,7 +125,7 @@ export class ContentComponent implements OnInit {
       return dateB - dateA;
     });
   }
-
+  
   extractUniqueAreas() {
     const allAreas = this.retailorList.map(retailor => retailor.area);
     this.areas = Array.from(new Set(allAreas));

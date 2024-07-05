@@ -180,7 +180,7 @@ export class ReviewComponent implements OnInit {
     this.dsrService.Postproducts(this.UpdatedProducts).subscribe(observer);
      this.store.dispatch(clear());
   }
-  loadFromSessionStorage(): void {
+  loadFromsessionStorage(): void {
     
     
   }
