@@ -35,11 +35,11 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
     private store: Store<productDetails[]>,
     private router: Router
   ) {
-    sessionStorage.removeItem('selectedRetailor');
-    sessionStorage.removeItem('selectedDateValue');
+    localStorage.removeItem('selectedRetailor');
+    localStorage.removeItem('selectedDateValue');
   }
   ngOnInit(): void {
-    const savedRetailorDetails = this.retailorService.getUserDetailsFromSessionStorage();
+    const savedRetailorDetails = this.retailorService.getUserDetailsFromlocalStorage();
     if (savedRetailorDetails) {
       this.retailorlist = savedRetailorDetails;
       this.loadProducts(savedRetailorDetails.id);
@@ -57,11 +57,11 @@ export class RetailorDetailsComponent implements OnInit, OnDestroy {
   }
   private loadProducts(id: string): void {
     const sessionKey = `productDetails`;
-    const sessionData = sessionStorage.getItem(sessionKey);
+    const sessionData = localStorage.getItem(sessionKey);
       this.retailorService.getProductsById(id).subscribe((productDetails: ProductDetails) => {
         this.processData(productDetails);
         console.log('Fetched from service:', productDetails);
-        sessionStorage.setItem(sessionKey, JSON.stringify(productDetails));
+        localStorage.setItem(sessionKey, JSON.stringify(productDetails));
         this.store.dispatch(loadProductDetails({ productDetails }));
       });
 

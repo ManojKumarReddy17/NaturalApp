@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-  private userDetailsSubject = new BehaviorSubject<UserDetails>(this.getUserDetailsFromSessionStorage());
+  private userDetailsSubject = new BehaviorSubject<UserDetails>(this.getUserDetailsFromlocalStorage());
 
   userDetails$ = this.userDetailsSubject.asObservable();
 
@@ -14,24 +14,24 @@ export class ProfileService {
 
   setUserDetails(userDetails: UserDetails) {
     this.userDetailsSubject.next(userDetails);
-    this.saveUserDetailsToSessionStorage(userDetails);
+    this.saveUserDetailsTolocalStorage(userDetails);
   }
 
   getUserDetails(): Observable<UserDetails> {
     return this.userDetailsSubject.asObservable();
   }
 
-  private saveUserDetailsToSessionStorage(userDetails: UserDetails): void {
-    sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+  private saveUserDetailsTolocalStorage(userDetails: UserDetails): void {
+    localStorage.setItem('userDetails', JSON.stringify(userDetails));
   }
 
-  public getUserDetailsFromSessionStorage(): UserDetails | null {
-    const userDetailsString = sessionStorage.getItem('userDetails');
+  public getUserDetailsFromlocalStorage(): UserDetails | null {
+    const userDetailsString = localStorage.getItem('userDetails');
     return userDetailsString ? JSON.parse(userDetailsString) : null;
   }
 
   clearUserDetails(): void {
-    sessionStorage.removeItem('userDetails');
+    localStorage.removeItem('userDetails');
     this.userDetailsSubject.next(null);
   }
 }

@@ -64,7 +64,7 @@ export class ReviewComponent implements OnInit {
     private userDetailsService: ProfileService 
   ) {
     
-    const sessionData = sessionStorage.getItem('orderFormSession');
+    const sessionData = localStorage.getItem('orderFormSession');
     
       const orderFormSession: orderformsession = JSON.parse(sessionData);
       this.selectedRetailer = orderFormSession.retailor[0].firstName +' '+orderFormSession.retailor[0].lastName;
@@ -134,7 +134,7 @@ export class ReviewComponent implements OnInit {
     });
 
     if (this.id.startsWith('NDIS')) {
-      const sessionData = JSON.parse(sessionStorage.getItem('orderFormSession'));
+      const sessionData = JSON.parse(localStorage.getItem('orderFormSession'));
       this.UpdatedProducts.distributor = this.id;
       this.UpdatedProducts.executive = this.exeId;
       this.UpdatedProducts.retailor = sessionData.rId;
@@ -142,7 +142,7 @@ export class ReviewComponent implements OnInit {
       this.UpdatedProducts.createdDate = sessionData.createdDate;
       
     } else if (this.id.startsWith('NEXE')) {
-      const sessionData = JSON.parse(sessionStorage.getItem('orderFormSession'));
+      const sessionData = JSON.parse(localStorage.getItem('orderFormSession'));
       this.UpdatedProducts.executive = this.id;
       this.UpdatedProducts.distributor = sessionData.retailor[0].distributor;
       this.UpdatedProducts.retailor = sessionData.rId;
@@ -180,12 +180,12 @@ export class ReviewComponent implements OnInit {
     this.dsrService.Postproducts(this.UpdatedProducts).subscribe(observer);
      this.store.dispatch(clear());
   }
-  loadFromsessionStorage(): void {
+  loadFromlocalStorage(): void {
     
     
   }
   closePopup() {
-    sessionStorage.removeItem('orderFormSession');
+    localStorage.removeItem('orderFormSession');
     
     this.router.navigate(['/Menu'])
   }

@@ -19,7 +19,7 @@ export class RetailorDetailsService {
 
 
 
-  private userDetailsSubject = new BehaviorSubject<RetailorDetails>(this.getUserDetailsFromSessionStorage());
+  private userDetailsSubject = new BehaviorSubject<RetailorDetails>(this.getUserDetailsFromlocalStorage());
   userDetails$ = this.userDetailsSubject.asObservable();
   private infoButtonClickSubject = new BehaviorSubject<RetailorDetails | null>(null);
   infoButtonClick$ = this.infoButtonClickSubject.asObservable();
@@ -27,17 +27,17 @@ export class RetailorDetailsService {
   constructor(private httpClient :HttpclentwrapperService,private rxdbservice:RXDBService) { }
   setdetails(infoButtonClickSubject: RetailorDetails) {
     this.infoButtonClickSubject.next(infoButtonClickSubject);
-    this.saveUserDetailsToSessionStorage(infoButtonClickSubject);
+    this.saveUserDetailsTolocalStorage(infoButtonClickSubject);
   }
-  private saveUserDetailsToSessionStorage(infoButtonClickSubject: RetailorDetails): void {
-    sessionStorage.setItem('infoButtonClickSubject', JSON.stringify(infoButtonClickSubject));
+  private saveUserDetailsTolocalStorage(infoButtonClickSubject: RetailorDetails): void {
+    localStorage.setItem('infoButtonClickSubject', JSON.stringify(infoButtonClickSubject));
   }
-  public getUserDetailsFromSessionStorage(): RetailorDetails | null {
-    const userDetailsString = sessionStorage.getItem('infoButtonClickSubject');
+  public getUserDetailsFromlocalStorage(): RetailorDetails | null {
+    const userDetailsString = localStorage.getItem('infoButtonClickSubject');
     return userDetailsString ? JSON.parse(userDetailsString) : null;
   }
   clearUserDetails(): void {
-    sessionStorage.removeItem('infoButtonClickSubject');
+    localStorage.removeItem('infoButtonClickSubject');
     this.userDetailsSubject.next(null);
   }
   getRetailorsListByDistributorId(id: any): Observable<RetailorDetails> {
