@@ -56,16 +56,16 @@ export class OrderformEditComponent implements OnInit {
     private router: Router // Inject Router
   ) {
     this.dataSource = new MatTableDataSource<Product>();
-    const products = JSON.parse(sessionStorage.getItem('productDetails'));
+    const products = JSON.parse(localStorage.getItem('productDetails'));
     this.dataSource.data = products;
-    this.selectedDate = JSON.parse(sessionStorage.getItem('selectedDateValue'));
-    const retailor = JSON.parse(sessionStorage.getItem('selectedRetailor'));
+    this.selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
+    const retailor = JSON.parse(localStorage.getItem('selectedRetailor'));
     this.selectedArea = retailor.area;
     this.selectedRetailer = retailor.firstName + ' ' + retailor.lastName;
   }
 
   ngOnInit(): void {
-    const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userinfo = JSON.parse(localStorage.getItem('userDetails'));
     if(userinfo.id.startsWith('NDIS')){
       this.id = userinfo.id;
       this.role = 'distributor';
@@ -108,10 +108,10 @@ export class OrderformEditComponent implements OnInit {
 
   submit() {
     this.UpdatedProducts.product = [];
-    const retailor = JSON.parse(sessionStorage.getItem('selectedRetailor'));
-    const selectedDate = JSON.parse(sessionStorage.getItem('selectedDateValue'));
-    const disIdAndexeId = JSON.parse(sessionStorage.getItem('userDetails'));
-    const dsrId = JSON.parse(sessionStorage.getItem('infoButtonClickSubject'));
+    const retailor = JSON.parse(localStorage.getItem('selectedRetailor'));
+    const selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
+    const disIdAndexeId = JSON.parse(localStorage.getItem('userDetails'));
+    const dsrId = JSON.parse(localStorage.getItem('infoButtonClickSubject'));
 
     this.productdetails.forEach(data => {
       if (!data.dsr) {

@@ -46,7 +46,7 @@ export class EditDsrComponent implements OnInit {
   orderDate:Date;
   id:any;
   sessionKey = `productDetails`;
- sessionData = sessionStorage.getItem(this.sessionKey);
+ sessionData = localStorage.getItem(this.sessionKey);
   constructor(
     private productService: ProductService,
     private activeRoute: ActivatedRoute,
@@ -59,9 +59,9 @@ export class EditDsrComponent implements OnInit {
     this.getRetailorNamesByDistributor();
     
     
-    const retailor = JSON.parse(sessionStorage.getItem('selectedRetailor'));
+    const retailor = JSON.parse(localStorage.getItem('selectedRetailor'));
     if(retailor == null || retailor == ''){
-      const sessionData = sessionStorage.getItem('infoButtonClickSubject');
+      const sessionData = localStorage.getItem('infoButtonClickSubject');
          const retailorData = JSON.parse(sessionData);
          this.selectedArea = retailorData.area;
          this.selectedRetailer = retailorData.rId;
@@ -70,7 +70,7 @@ export class EditDsrComponent implements OnInit {
     else{
       this.selectedArea = retailor.area;
          this.selectedRetailer = retailor.id;
-        this.selectedDate = JSON.parse(sessionStorage.getItem('selectedDateValue'));
+        this.selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
     }
        
     
@@ -78,7 +78,7 @@ export class EditDsrComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupHardwareBackButton();
-    const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userinfo = JSON.parse(localStorage.getItem('userDetails'));
     if(userinfo.id.startsWith('NDIS')){
       this.distributorid = userinfo.id;
     }
@@ -186,9 +186,9 @@ export class EditDsrComponent implements OnInit {
     console.log(selectedProducts);
     console.log(this.selectedRetailer);
     const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
-    sessionStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
-    sessionStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
-    sessionStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
+    localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
+    localStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
+    localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
 
     this.productService.DisplaySelectedProducts(selectedProducts);
  
@@ -248,17 +248,17 @@ export class EditDsrComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   private saveProductsToSession(selectedProducts: Product[]): void {
-    sessionStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+    localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
    
    
   }
 
 
   private loadProductsFromSession(): void {
-    const savedProducts = sessionStorage.getItem('selectedProducts');
+    const savedProducts = localStorage.getItem('selectedProducts');
     if (savedProducts) {
       this.dataSource.data = JSON.parse(savedProducts);
-      sessionStorage.removeItem('selectedProducts');
+      localStorage.removeItem('selectedProducts');
     }
     
   }

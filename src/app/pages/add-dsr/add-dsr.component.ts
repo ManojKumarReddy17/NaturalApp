@@ -91,7 +91,7 @@ export class AddDsrComponent implements OnInit {
         this.getRetailorNamesByExecutive();
       }
 
-      this.loadFromsessionStorage();
+      this.loadFromlocalStorage();
     });
   }
 
@@ -211,7 +211,7 @@ export class AddDsrComponent implements OnInit {
     });
     const selectedDate = this.selectedDate?.value;
 
-    this.saveTosessionStorage();
+    this.saveTolocalStorage();
     this.router.navigate(['/CreateDSR', this.distributorid, 'Review'])
   }
 
@@ -253,22 +253,22 @@ export class AddDsrComponent implements OnInit {
     this.location.back();
   }
   
-  saveTosessionStorage(): void {
+  saveTolocalStorage(): void {
     
     const orderFormSession: orderformsession = {
       rId: this.selectedRetailer || '',
       aId: this.selectedArea || '',
-      
+
       createdDate: this.selectedDateValue,
       retailor: this.retailorNames.filter((item) => item.id === this.selectedRetailer),
       area: this.selectedArea ? [{ id: '', areaName: this.selectedArea }] : [],
-       
+      selectedproducts: []
     };
-    sessionStorage.setItem('orderFormSession', JSON.stringify(orderFormSession));
+    localStorage.setItem('orderFormSession', JSON.stringify(orderFormSession));
   }
 
-  loadFromsessionStorage(): void {
-    const sessionData = sessionStorage.getItem('orderFormSession');
+  loadFromlocalStorage(): void {
+    const sessionData = localStorage.getItem('orderFormSession');
     if (sessionData) {
       const orderFormSession: orderformsession = JSON.parse(sessionData);
       //this.distributorid = orderFormSession.rId;
@@ -279,7 +279,7 @@ export class AddDsrComponent implements OnInit {
     }
   }
 
-  resetsessionStorage(): void {
-    sessionStorage.removeItem('orderFormSession');
+  resetlocalStorage(): void {
+    localStorage.removeItem('orderFormSession');
   }
 }

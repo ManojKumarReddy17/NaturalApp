@@ -39,7 +39,7 @@ export class ContentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const userDetails = this.profileService.getUserDetailsFromSessionStorage();
+    const userDetails = this.profileService.getUserDetailsFromlocalStorage();
     if (userDetails) {
       this.id = userDetails.id;
       this.loadRetailorList();

@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService, private location: Location) {}
 
   ngOnInit(): void {
-    this.userDetails = this.profileService.getUserDetailsFromSessionStorage();
+    this.userDetails = this.profileService.getUserDetailsFromlocalStorage();
     if (this.userDetails) {
       console.log(this.userDetails);
     } else {

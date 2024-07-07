@@ -44,7 +44,7 @@ export class MenuComponent implements OnInit {
       this.userName = params.UserName;
     });
 
-    this.userDetails = this.profileService.getUserDetailsFromSessionStorage();
+    this.userDetails = this.profileService.getUserDetailsFromlocalStorage();
     if (this.userDetails) {
       console.log('User Details:', this.userDetails);
       console.log('User Role:', this.userDetails.executives);

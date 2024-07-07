@@ -19,13 +19,17 @@ import { RXDBService } from '../Service/rxdb.service';
 })
 export class AppComponent {
   title = 'natural-angular-app';
+  private bachButtonListenerAdded = false;
 constructor(private platform: Platform, private location: Location, private rxdbService: RXDBService){
-  this.initializeApp();
   this.rxdbService.ensureIsDatabaseCreated();
 }
-
+ngOnInit(){
+  this.initializeApp();
+}
 initializeApp(){
   this.platform.ready().then(() => {
+    if(!this.bachButtonListenerAdded){
+      this.bachButtonListenerAdded = true;
     App.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {
         this.location.back();
@@ -35,6 +39,9 @@ initializeApp(){
         }
       }
     });
+  }
   });
+
 }
 }
+
