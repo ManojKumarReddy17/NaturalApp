@@ -18,8 +18,10 @@ export class ReportsComponent implements OnInit {
 
   salesReports: Reports[] = [];
   areas: Areas[] = [];
-  selectedArea: string = 'arn28'; 
-  endDate: string = '2024-02-24';
+  filteredAreas:Areas[]=[];
+  selectedArea: string = ''; 
+  endDate: string = '2024-07-11';
+  startDate:string='2024-02-24';
   searchText: string = '';
   noDataFound: boolean = true; 
 
@@ -31,7 +33,7 @@ export class ReportsComponent implements OnInit {
   }
 
   fetchSalesReport() {
-    this.salesReportService.getSalesReport(this.selectedArea, this.endDate)
+    this.salesReportService.getSalesReport(this.selectedArea, this.endDate,this.startDate)
       .subscribe((data: any[]) => {
         this.salesReports = data;
         this.salesReportService.saveReports(this.salesReports);
@@ -43,6 +45,7 @@ export class ReportsComponent implements OnInit {
     this.salesReportService.getAreas()
       .subscribe((data: Areas[]) => {
         this.areas = data;
+        this.filteredAreas=this.getfilteredAreas();
         this.salesReportService.saveAreas(this.areas);
         this.sortAreas();
       });
@@ -52,7 +55,7 @@ export class ReportsComponent implements OnInit {
     this.areas.sort((a, b) => a.areaName.localeCompare(b.areaName));
   }
 
-  get filteredAreas(): Areas[] {
+  getfilteredAreas(): Areas[] {
     const filtered = this.areas.filter(area =>
       this.isMatch(area.areaName.toLowerCase(), this.searchText.toLowerCase())
     );
