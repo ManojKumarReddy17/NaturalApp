@@ -44,6 +44,7 @@ export class AddDsrComponent implements OnInit {
   selectedArea: string | undefined;
   retainedproducts: Observable<any>;
   selectedDateValue: Date = new Date();
+  isExecutive: boolean = false;
  
 
   dateForm = new FormGroup({
@@ -88,6 +89,7 @@ export class AddDsrComponent implements OnInit {
       if (this.distributorid && this.distributorid.startsWith('NDIS')) {
         this.getRetailorNamesByDistributor();
       } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
+        this.isExecutive= true;
         this.getRetailorNamesByExecutive();
       }
 
@@ -153,8 +155,8 @@ export class AddDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbyexecutive(this.ExecutiveId).subscribe({
         next: (data) => {
           this.retailorNames = data;
+          console.log(this.retailorNames);
           this.retailorService.saveRetailorDetails(this.retailorNames);
-
           this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
         },
         error: (error) => {
@@ -165,19 +167,15 @@ export class AddDsrComponent implements OnInit {
   }
 
   filterRetailers(): any[] {
-    if (!this.selectedArea || !this.retailorNames) {
       return this.retailorNames;
-    } else {
-      return this.retailorNames.filter(retailer => retailer.area === this.selectedArea);
-    }
   }
 
-  onAreaChange(selectedArea: string): void {
-    this.selectedArea = selectedArea;
-    if (!selectedArea) {
-      this.selectedRetailer = undefined;
-    }
-  }
+  // onAreaChange(selectedArea: string): void {
+  //   this.selectedArea = selectedArea;
+  //   if (!selectedArea) {
+  //     this.selectedRetailer = undefined;
+  //   }
+  // }
 
   calculatePricetotal(product: any, productPrice: string): void {
     product.subtotal = parseFloat(productPrice) * product.quantity;

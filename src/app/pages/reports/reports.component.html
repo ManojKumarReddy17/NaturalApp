@@ -1,36 +1,138 @@
+
+ 
+
 <h1 class="heading">Reports</h1>
 
-<mat-form-field class="area">
-  <mat-label>Select Area : </mat-label>
-  <input matInput placeholder="Search Area" [(ngModel)]="searchText" (input)="onSearchChange($event); openDropdown()">
-  <mat-select #areaSelect (selectionChange)="selectArea($event.value)">
-    <mat-option [value]="null">-- Select Area --</mat-option>
-    <ng-container *ngFor="let area of filteredAreas">
-      <mat-option [value]="area.id">
-        <span [ngStyle]="{ color: 'red' }">{{ area.areaName.substring(0, searchText.length) }}</span>
-        <span>{{ area.areaName.substring(searchText.length) }}</span>
+<mat-form-field class="Datepicker">
+  <mat-icon matPrefix>calendar_today</mat-icon>
+  <input matInput [matDatepicker]="picker1" placeholder="Select Start Date" (dateInput)="updateStartDate($event)">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field class="Datepicker">
+  <mat-icon matPrefix>calendar_today</mat-icon>
+  <input matInput [matDatepicker]="picker2" placeholder="Select End Date" (dateInput)="updateEndDate($event)">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field class="searchfilter">
+  <mat-label for="distributor">Distributor</mat-label>
+  <mat-select id="distributorselect" [(ngModel)]="selectedDistributor">
+    <mat-option [value]="undefined">-- None --</mat-option>
+    <ng-container *ngIf="isExecutive">
+      <mat-option *ngFor="let distributor of filterDistributors()" [value]="distributor.id">
+        {{ distributor.firstName }} {{ distributor.lastName }}
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf="!isExecutive">
+      <mat-option *ngFor="let distributor of filterDistributors()" [value]="distributor.id">
+        {{ distributor.firstName }} {{ distributor.lastName }}
       </mat-option>
     </ng-container>
   </mat-select>
 </mat-form-field>
 
+
+
+
+<mat-form-field class="searchfilter">
+  <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Retailer</mat-label>
+  <input matInput placeholder="Retailer" #input (keyup)="applyFilter(input.value)">
+</mat-form-field>
+ <!-- <mat-form-field class="searchfilter">
+  <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Retailer</mat-label>
+  <input matInput placeholder="Retailer" #input [matAutocomplete]="auto" [(ngModel)]="retailerSearchText" (click)="onRetailerSearchClick()">
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let retailer of filteredRetailers" [value]="retailer.retailerName">
+      {{ retailer.retailerName }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>  -->
+
+
+<ng-container *ngIf="!isExecutive">
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="retailer">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Retailer </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.retailerName }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.createdDate | date }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="productName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.product_Name }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.price  }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.quantity }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="saleAmount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Sale Amount </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.saleAmount }} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</ng-container>
+<ng-container *ngIf="isExecutive">
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="retailer">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Retailer </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.retailor }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.createdDate | date }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="productName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.product_Name }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.price  }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.quantity }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="saleAmount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Sale Amount </mat-header-cell>
+      <mat-cell *matCellDef="let report"> {{ report.saleAmount }} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</ng-container>
+
+
+
 <div class="no-data" *ngIf="noDataFound">
   No data found
 </div>
 
-<ul class="sales-reports">
-  <li *ngFor="let report of salesReports" class="sales-report-item">
-    <div class="report-details">
-      <p><strong>Area : </strong> {{ report.area }}</p>
-      <p><strong>Executive : </strong> {{ report.executive }}</p>
-      <p><strong>Distributor : </strong> {{ report.distributor }}</p>
-      <p><strong>Retailer : </strong> {{ report.retailor }}</p>
-      <p><strong>Created Date : </strong> {{ report.createdDate }}</p>
-      <p><strong>Product : </strong> {{ report.product }}</p>
-      <p><strong>Product Name : </strong> {{ report.product_Name }}</p>
-      <p><strong>Price : </strong> {{ report.price }}</p>
-      <p><strong>Quantity : </strong> {{ report.quantity }}</p>
-      <p><strong>Sale Amount : </strong> {{ report.saleAmount }}</p>
-    </div>
-  </li>
-</ul>
+

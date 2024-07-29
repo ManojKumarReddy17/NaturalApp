@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Reports } from '../app/Models/reports';
+import { dsReports, Reports } from '../app/Models/reports';
 import { Observable } from 'rxjs';
 import { Areas } from '../app/Models/areas';
 import { HttpclentwrapperService } from './httpclentwrapper.service';
@@ -10,17 +10,32 @@ import { RXDBService } from './rxdb.service';
   providedIn: 'root'
 })
 export class ReportsService {
-  private apiUrl = 'DSReport';
+
+  private apiUrl = 'DistributorLoginReports';
   private AreaUrl = 'Area';
+  private DSrUrl='DSReport';
+ private assignedDistributorsbyeexecutiveUrl='AssignDistributorToExecutive/Details';
 
   constructor(private client :HttpclentwrapperService, private rxdbService:RXDBService) { }
 
-  getSalesReport(area: string, endDate: string): Observable<Reports[]> {
-    return this.client.get<Reports[]>(`${this.apiUrl}?Area=${area}&EndDate=${endDate}`);
+  getSalesReport(area: string,Distributor:string,startDate:string,endDate:string): Observable<Reports[]> {
+    return this.client.get<Reports[]>(`${this.apiUrl}?Area=${area}&StartDate=${startDate}&EndDate=${endDate}&distributor=${Distributor}`);
   }
+  getDsrReports(area:string,retailor:string,executive:string,distributor:string,startDate:string,endDate:string): Observable<dsReports[]>
+{
+  return this.client.get<dsReports[]>(`${this.DSrUrl}?Area=${area}&Retailor=${retailor}&Executive=${executive}&Distributor=${distributor}&StartDate=${startDate}&EndDate=${endDate}`)
+}  
+  // getSalesReport(area: string,Distributor:string,startDate:string,endDate:string): Observable<Reports[]> {
+  //   return this.client.get<Reports[]>(`${this.apiUrl}?distributor=${Distributor}&StartDate=${startDate}&EndDate=${endDate}&Area=${area}`);
+  // }
+  getDistributorbyexecutive(id:any): Observable<any>{
+    return this.client.get(`${this.assignedDistributorsbyeexecutiveUrl}/${id}`)
+    }
   getAreas(): Observable<Areas[]> {
     return this.client.get<Areas[]>(this.AreaUrl);
   }
+
+  
   async saveReports(data : any[]){
     try {
       
@@ -32,7 +47,7 @@ export class ReportsService {
     }
     
   } 
-  
+   
   async saveAreas(data : any[]){
     try {
       
@@ -44,5 +59,7 @@ export class ReportsService {
     }
     
   } 
-  
+
 }
+
+

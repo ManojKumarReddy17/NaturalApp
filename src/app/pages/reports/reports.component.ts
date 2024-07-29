@@ -1,58 +1,136 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Reports } from '../../Models/reports';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSelect } from '@angular/material/select';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { dsReports, Reports } from '../../Models/reports';
 import { ReportsService } from '../../../Service/reports.service';
+import { ProfileService } from '../../../Service/profile.service';
+import { Areas } from '../../Models/areas';
+import { UserDetails } from '../../Models/user-details';
 import { MaterialModule } from '../../material.module';
 import { FormsModule } from '@angular/forms';
-import { Areas } from '../../Models/areas';
-import { MatSelect } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+import { error } from 'console';
+
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [MaterialModule, FormsModule],
+  imports: [MaterialModule, FormsModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss'] 
+  styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
   @ViewChild(MatSelect) select: MatSelect;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   salesReports: Reports[] = [];
-  areas: Areas[] = [];
-  selectedArea: string = 'arn28'; 
-  endDate: string = '2024-02-24';
-  searchText: string = '';
-  noDataFound: boolean = true; 
+  Dsreports:dsReports[]=[];
 
-  constructor(private salesReportService: ReportsService) {}
+  
+  dataSource=new MatTableDataSource<any>();
+  userDetails: UserDetails = this.profileService.getUserDetailsFromlocalStorage();
+  areas: Areas[] = [];
+  filteredAreas: Areas[] = [];
+  selectedArea: string = '';
+  retailors:string=''; 
+  executive:string='';
+  distributor: string='';
+  id:string='';
+  startDate: string = ''; 
+  endDate: string = '';
+  searchText: string = '';
+  distributorNames:any='';
+  ExecutiveId: string | null = null;
+  selectedDistributor: any;
+isExecutive:boolean=this.userDetails.id.startsWith("NEXE")?true:false;
+  noDataFound: boolean = true; 
+  displayedColumns = ['retailer', 'createdDate', 'productName', 'price', 'quantity', 'saleAmount'];
+
+  constructor(private salesReportService: ReportsService, private profileService: ProfileService) {}
 
   ngOnInit(): void {
+    const today = new Date();
+    this.startDate = this.formatDate(today);
+    this.endDate = this.formatDate(today);
+    this.id="1";
+  if(!this.isExecutive)
     this.fetchSalesReport();
+  else   
+    this.fetchDsReport();
+    this.getdistributorbyexecutive();
     this.fetchAreas();
+   
+   
+  }
+
+  formatDate(date: Date): string {
+    const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return localDate.toISOString().split('T')[0];
   }
 
   fetchSalesReport() {
-    this.salesReportService.getSalesReport(this.selectedArea, this.endDate)
-      .subscribe((data: any[]) => {
+    this.distributor = this.userDetails.id;
+    this.salesReportService.getSalesReport(this.selectedArea, this.distributor, this.startDate, this.endDate)
+      .subscribe((data: Reports[]) => {
         this.salesReports = data;
-        this.salesReportService.saveReports(this.salesReports);
+        this.dataSource.data = data;
         this.noDataFound = data.length === 0; 
       });
-  }
+    
+    }
+    fetchDsReport() {
+      
+      this.executive = this.userDetails.id;
+      
+      this.salesReportService.getDsrReports(this.selectedArea,this.retailors,this.executive, this.distributor, this.startDate, this.endDate)
+        .subscribe((data: dsReports[]) => {
+          this.Dsreports = data;
+          this.dataSource.data = data;
+          this.noDataFound = data.length === 0; 
+        });
+      
+      
+      }
+
 
   fetchAreas() {
     this.salesReportService.getAreas()
-      .subscribe((data: Areas[]) => {
-        this.areas = data;
-        this.salesReportService.saveAreas(this.areas);
-        this.sortAreas();
+      .subscribe((response: any) => {
+        if (response && Array.isArray(response.items)) {
+          this.areas = response.items;
+          this.filteredAreas = this.getfilteredAreas();
+          this.sortAreas();
+        } else {
+          console.error('Expected an object with an items array, but got:', response);
+        }
       });
   }
+  getdistributorbyexecutive():void{
+if(this.isExecutive){
+  this.salesReportService.getDistributorbyexecutive(this.executive).subscribe({
+    next:(data)=>{
+      this.distributorNames=data;
+      this.salesReportService.saveReports(this.distributorNames);
+      this.areas = Array.from(new Set(data.map((distributor: any) => distributor.area)));
+    },
+    error:(error)=>{
+      console.error(error);
+    }
+  });
+}
+  }
+ 
 
   sortAreas() {
     this.areas.sort((a, b) => a.areaName.localeCompare(b.areaName));
   }
 
-  get filteredAreas(): Areas[] {
+  getfilteredAreas(): Areas[] {
     const filtered = this.areas.filter(area =>
       this.isMatch(area.areaName.toLowerCase(), this.searchText.toLowerCase())
     );
@@ -68,17 +146,50 @@ export class ReportsComponent implements OnInit {
 
   selectArea(areaId: string) {
     this.selectedArea = areaId;
-    this.searchText = ''; 
     this.fetchSalesReport();
+    this.fetchDsReport();
   }
 
   onSearchChange(event: any) {
     this.searchText = event.target.value.toLowerCase();
-    this.noDataFound = true; 
+    this.filteredAreas = this.getfilteredAreas();
+    this.noDataFound = false; 
   }
 
   openDropdown() {
     this.select.open();
   }
+
+  updateStartDate(event: MatDatepickerInputEvent<Date>) {
+    if (event.value) {
+      this.startDate = this.formatDate(event.value);
+      if(!this.isExecutive)
+        this.fetchSalesReport();
+      else   
+        this.fetchDsReport();
+    }
+  }
+
+  updateEndDate(event: MatDatepickerInputEvent<Date>) {
+    if (event.value) {
+      this.endDate = this.formatDate(event.value);
+      if(!this.isExecutive)
+        this.fetchSalesReport();
+      else   
+        this.fetchDsReport();
+    }
+  }
+  filterDistributors(): any[] {
+    return this.distributorNames;
 }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.noDataFound = this.dataSource.filteredData.length === 0;
+  }
+}
+
+
+
+
 
