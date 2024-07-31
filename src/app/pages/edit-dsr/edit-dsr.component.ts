@@ -18,6 +18,7 @@ import { AppState } from '../../../Store/appstate';
 import { ProductDetails } from '../../Models/product-details';
 import { RetailorDetails } from '../../Models/retailor-details';
 import { orderformsession } from '../../Models/orderformsession';
+import { json } from 'stream/consumers';
 @Component({
   selector: 'app-edit-dsr',
   standalone: true,
@@ -64,7 +65,7 @@ export class EditDsrComponent implements OnInit {
       const sessionData = localStorage.getItem('infoButtonClickSubject');
          const retailorData = JSON.parse(sessionData);
          this.selectedArea = retailorData.area;
-         this.selectedRetailer = retailorData.rId;
+          this.selectedRetailer = retailorData.rId;
         this.selectedDate = retailorData.createdDate;
     }
     else{
@@ -91,14 +92,8 @@ export class EditDsrComponent implements OnInit {
       this.getRetailorNamesByExecutive();
     }
     this.getProducts();
-    // this.activeRoute.paramMap.subscribe((params: ParamMap) => {
-    //   this.distributorid = params.get('id');
-    //   this.ExecutiveId = params.get('id');
-    //   const userinfo = JSON.parse(sessionStorage.getItem('userDetails'));
-    //   this.distributorid = userinfo.id;
-    //   console.log(this.distributorid);
-    //   const id = this.distributorid || this.ExecutiveId;
-    // });
+   
+   
 
     this.subscription = this.retailorService.infoButtonClick$.subscribe((retailorlist: RetailorDetails) => {
       if (!this.isRetailorAlreadyPresent(retailorlist)) {
@@ -106,6 +101,7 @@ export class EditDsrComponent implements OnInit {
         console.log(retailorlist);
         this.retailorArea = retailorlist.area;
         this.id = retailorlist.id;
+        //this.filterRetailers();
       }
     });
 
@@ -156,9 +152,9 @@ export class EditDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbydistributor(this.distributorid).subscribe({
         next: (data) => {
           this.retailorNames = data;
-          this.filterRetailers();
-          this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
-          console.log(this.areas);
+          //this.filterRetailers();
+          // this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
+          // console.log(this.areas);
         },
         error: (error) => {
           console.error(error);
@@ -172,7 +168,7 @@ export class EditDsrComponent implements OnInit {
       this.retailorService.getRetailorNamesbyexecutive(this.ExecutiveId).subscribe({
         next: (data) => {
           this.retailorNames = data;
-          this.areas = Array.from(new Set(data.map((retailer: any) => retailer.area)));
+          
         },
         error: (error) => {
           console.error(error);
@@ -183,15 +179,13 @@ export class EditDsrComponent implements OnInit {
 
   review(): void {
     const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
-    console.log(selectedProducts);
-    console.log(this.selectedRetailer);
+    // console.log(selectedProducts);
+    // console.log(this.selectedRetailer);
     const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
     localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
     localStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
     localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
-
     this.productService.DisplaySelectedProducts(selectedProducts);
- 
     this.router.navigate(['/Edit','Orderform']);
    
       
@@ -223,23 +217,18 @@ export class EditDsrComponent implements OnInit {
     this.location.back();
   }
 
-  filterRetailers(): any[] {
-    if (!this.selectedArea || !this.retailorNames) {
-      const details: ProductDetails = JSON.parse(this.sessionData);
-      this.selectedRetailer = this.retailorNames.find((item) => item.id == details.rId);
-      return this.retailorNames;
-    } else {
-      return this.retailorNames.filter(retailer => retailer.area === this.selectedArea);
-    }
-  }
+  // filterRetailers(): any[] {
+  //   if (!this.selectedArea || !this.retailorNames) {
+  //     const details = JSON.parse(this.sessionData);
+  //     this.selectedRetailer = this.retailorNames.find((item) => item.id == details.rId);
+  //     return this.retailorNames;
+  //   } else {
+  //     return this.retailorNames.filter(retailer => retailer.area === this.selectedArea);
+  //   }
+  // }
   setdefaultretailor() {
   }
-  onAreaChange(selectedArea: string): void {
-    this.selectedArea = selectedArea;
-    if (!selectedArea) {
-      this.selectedRetailer = undefined;
-    }
-  }
+  
 
   applyFilter(filterValue: string): void {
     this.dataSource.filterPredicate = (data: any, filter: string) => {

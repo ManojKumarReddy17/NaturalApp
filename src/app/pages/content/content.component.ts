@@ -11,6 +11,10 @@ import { DatePipe } from '@angular/common';
 import { GpsService } from '../../../Service/gps.service';
 import { ProfileService } from '../../../Service/profile.service'; 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DsrService } from '../../../Service/dsr.service';
+import { Store } from '@ngrx/store';
+import { Product } from '../../Models/product';
+import { clear } from '../../../Store/actions';
 
 @Component({
   selector: 'app-content',
@@ -35,8 +39,13 @@ export class ContentComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private datePipe: DatePipe,
     private gpsservice: GpsService,
-    private profileService: ProfileService 
-  ) { }
+    private profileService: ProfileService,
+    private store: Store<Product[]>,
+    
+  ) { 
+    localStorage.removeItem('orderFormSession');
+     this.store.dispatch(clear());
+  }
 
   ngOnInit(): void {
     const userDetails = this.profileService.getUserDetailsFromlocalStorage();

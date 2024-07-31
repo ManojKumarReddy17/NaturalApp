@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 })
 export class HttpclentwrapperService {
 
-  private readonly baseUrl: string = 'https://localhost:7101/api';
+  private readonly baseUrl: string = 'http://3.110.27.195:5024/api';
+ // private readonly baseUrl: string = 'https://localhost:7101/api';
   constructor(private http: HttpClient) {}
   get<T>(endpoint: string, params?: HttpParams): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}`, { params });

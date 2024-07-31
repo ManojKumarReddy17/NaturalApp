@@ -60,8 +60,8 @@ export class OrderformEditComponent implements OnInit {
     this.dataSource.data = products;
     this.selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
     const retailor = JSON.parse(localStorage.getItem('selectedRetailor'));
-    this.selectedArea = retailor.area;
-    this.selectedRetailer = retailor.firstName + ' ' + retailor.lastName;
+    // this.selectedArea = retailor.area;
+    this.selectedRetailer = retailor.retailorName;
   }
 
   ngOnInit(): void {

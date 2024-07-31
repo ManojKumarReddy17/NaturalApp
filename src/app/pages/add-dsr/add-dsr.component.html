@@ -31,7 +31,7 @@
       <mat-select id="retailerSelect" [(ngModel)]="selectedRetailer"  >
         <mat-option [value]="undefined">-- None --</mat-option> 
         <ng-container *ngIf="!isExecutive">
-          <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer.id">{{ retailer.firstName }} {{retailer.lastName}}</mat-option>
+          <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer.id">{{ retailer.retailorName}}</mat-option>
         </ng-container>
         <ng-container *ngIf="isExecutive">
           <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer.id">{{ retailer.retailorName}}</mat-option>
