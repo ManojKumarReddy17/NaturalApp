@@ -15,7 +15,7 @@ export class RetailorDetailsService {
   apiUrl: string = 'Dsr/RetailorDetailsbyExeOrDisId?Id=';
   productsApiUrl = 'Dsr/ById/';
   assignedRetailorsbydistirbutorUrl = 'AssignRetailorToDistributor/Details';
-  assignedRetailorsbyexecutiveUrl = 'Dsr/AssignedDetails';
+  assignedRetailorsbyexecAndDisUrl = 'Dsr/AssignedDetails';
   
 
 
@@ -52,10 +52,10 @@ export class RetailorDetailsService {
   }
  
   getRetailorNamesbydistributor(id: any): Observable<any> {
-    return this.httpClient.get(`${this.assignedRetailorsbydistirbutorUrl}/${id}`);
+    return this.httpClient.get(`${this.assignedRetailorsbyexecAndDisUrl}/${id}`);
   }
   getRetailorNamesbyexecutive(id: any): Observable<any> {
-    return this.httpClient.get(`${this.assignedRetailorsbyexecutiveUrl}/${id}`);
+    return this.httpClient.get(`${this.assignedRetailorsbyexecAndDisUrl}/${id}`);
   }
  
   getRetailorsListByDate(distributorid: string, date: string): Observable<RetailorDetails[]> {

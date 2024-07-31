@@ -12,7 +12,9 @@ import { Position } from '../app/Models/position';
   providedIn: 'root'
 })
 export class GpsService {
-  private apiUrl = 'https://localhost:7101/api/ExecutiveGPS/CreateOrUpdateExe';
+  private apiUrl = 'http://3.110.27.195:5024/api/ExecutiveGPS/CreateOrUpdateExe';
+  
+  //private apiUrl = 'https://localhost:7101/api/ExecutiveGPS/CreateOrUpdateExe';
 
   constructor(private http: HttpClient, private profileService: ProfileService) { }
 

@@ -19,7 +19,7 @@ import { RXDBService } from '../Service/rxdb.service';
 })
 export class AppComponent {
   title = 'natural-angular-app';
-  private bachButtonListenerAdded = false;
+  private bacKButtonListenerAdded = false;
 constructor(private platform: Platform, private location: Location, private rxdbService: RXDBService){
   this.rxdbService.ensureIsDatabaseCreated();
 }
@@ -27,20 +27,35 @@ ngOnInit(){
   this.initializeApp();
 }
 initializeApp(){
-  this.platform.ready().then(() => {
-    if(!this.bachButtonListenerAdded){
-      this.bachButtonListenerAdded = true;
-    App.addListener('backButton', ({ canGoBack }) => {
-      if (canGoBack) {
-        this.location.back();
-      } else {
-        if (confirm('Are you sure you want to exit the app?')) {
-          App.exitApp();
-        }
+  // this.platform.ready().then(() => {
+  //   if(!this.bachButtonListenerAdded){
+  //     this.bachButtonListenerAdded = true;
+  //   App.addListener('backButton', ({ canGoBack }) => {
+  //     if (canGoBack) {
+  //       this.location.back();
+  //     } else {
+  //       if (confirm('Are you sure you want to exit the app?')) {
+  //         App.exitApp();
+  //       }
+  //     }
+  //   });
+  // }
+  // });
+ 
+    this.platform.ready().then(() => {
+      if (!this.bacKButtonListenerAdded) {
+        this.bacKButtonListenerAdded = true;
+        App.addListener('backButton', ({ canGoBack }) => {
+          if (canGoBack) {
+            this.location.back();
+          } else {
+            if (confirm('Are you sure you want to exit the app?')) {
+              App.exitApp();
+            }
+          }
+        });
       }
     });
-  }
-  });
 
 }
 }

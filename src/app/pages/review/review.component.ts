@@ -67,7 +67,7 @@ export class ReviewComponent implements OnInit {
     const sessionData = localStorage.getItem('orderFormSession');
     
       const orderFormSession: orderformsession = JSON.parse(sessionData);
-      this.selectedRetailer = orderFormSession.retailor[0].firstName +' '+orderFormSession.retailor[0].lastName;
+      this.selectedRetailer = orderFormSession.retailor[0].retailorName;
       this.selectedArea = orderFormSession.aId;
       this.selectedDate = orderFormSession.createdDate;
        this.products  = this.store.pipe(select(selectProducts));

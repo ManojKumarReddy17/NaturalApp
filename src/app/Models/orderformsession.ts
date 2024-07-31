@@ -1,5 +1,6 @@
 
 import { Areas } from "./areas";
+import { Product } from "./product";
 
 
 export class orderformsession {
@@ -9,7 +10,7 @@ export class orderformsession {
     createdDate: Date ;
     retailor:any;
     area:Areas[]=[];
-  selectedproducts: import("c:/New_Angular/NaturalApp/src/app/Models/product").Product[];
+    selectedproducts: Product[];
     constructor(rId: string, aId: string, createdDate: Date) {
         this.rId = rId;
         this.aId = aId;

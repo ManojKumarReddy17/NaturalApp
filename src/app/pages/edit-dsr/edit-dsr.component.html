@@ -6,21 +6,21 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   
-  <div class="flex-item">
+  <!-- <div class="flex-item">
     <mat-form-field class="Dropdown" class="area">
       <mat-label for="areaSelect">Area</mat-label>
       <mat-select id="areaSelect" [(ngModel)]="selectedArea" (selectionChange)="onAreaChange($event.value)">
         <mat-option [value]="undefined">-- None --</mat-option>
         <mat-option *ngFor="let area of areas" [value]="area">{{area}}</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
   
   <div class="flex-item">
     <mat-form-field class="Dropdown" class="retailor">
       <mat-label for="retailerSelect">Retailer</mat-label>
       <mat-select id="retailerSelect" [(ngModel)]="selectedRetailer">
         <mat-option [value]="undefined">--None--</mat-option>
-        <mat-option *ngFor="let retailer of filterRetailers()" [value]="retailer.id">{{ retailer.firstName }} {{retailer.lastName}}</mat-option>
+        <mat-option *ngFor="let retailer of retailorNames" [value]="retailer.id">{{ retailer.retailorName}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
