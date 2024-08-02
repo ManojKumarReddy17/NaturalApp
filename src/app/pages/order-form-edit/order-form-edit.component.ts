@@ -29,7 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 export class OrderformEditComponent implements OnInit {
 
   productdetails: Product[] = [];
-  displayedColumns = ['ProductID', 'ProductName', 'Category', 'Quantity', 'Price', 'Subtotal'];
+  displayedColumns = [ 'ProductName',  'Quantity', 'Price', 'Subtotal'];
   dataSource = new MatTableDataSource<Product>();
   subtotal: number;
   selectedProducts: Product[] = [];
