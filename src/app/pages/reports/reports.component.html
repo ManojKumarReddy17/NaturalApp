@@ -34,14 +34,22 @@
   </mat-select>
 </mat-form-field>
 
-
-
-
 <mat-form-field class="searchfilter">
+  <mat-label>Retailer</mat-label>
+  <mat-select placeholder="Select Retailer" (selectionChange)="applyFilter($event.value)">
+    <mat-option [value]="undefined">-- None --</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+
+
+<!-- <mat-form-field class="searchfilter">
   <mat-icon matPrefix>search</mat-icon>
   <mat-label>Retailer</mat-label>
   <input matInput placeholder="Retailer" #input (keyup)="applyFilter(input.value)">
-</mat-form-field>
+</mat-form-field> -->
+
  <!-- <mat-form-field class="searchfilter">
   <mat-icon matPrefix>search</mat-icon>
   <mat-label>Retailer</mat-label>
