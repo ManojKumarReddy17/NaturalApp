@@ -1,6 +1,6 @@
-<h1 class="heading">REVIEW FORM</h1>
-<section class="section-container">
-  <!-- <p class="selected-area">Selected Area: {{selectedArea}}</p> -->
+ <h1 class="heading">REVIEW FORM</h1>
+ <section class="section-container">
+   <p class="selected-area">Selected Area: {{selectedArea}}</p> 
   <p class="selected-retailer">Selected Retailer: {{selectedRetailer}}</p>
   <div>
     <h4>Date: {{ selectedDate | date }}</h4>
@@ -53,5 +53,10 @@
 <mat-icon class="back-button" (click)="goback()">keyboard_backspace</mat-icon>
 
 <button class="submit-button" (click)="submit()">Submit</button> 
-
-
+<div *ngIf="successMessage" class="success-popup">
+  <div class="popup-content">
+    <p>{{ successMessage }}</p>
+    <button mat-button (click)="closePopup()">Close</button>
+  </div>
+</div>
+ 

@@ -140,6 +140,7 @@ export class ReviewComponent implements OnInit {
       this.UpdatedProducts.retailor = sessionData.rId;
       this.UpdatedProducts.orderBy = this.id;
       this.UpdatedProducts.createdDate = sessionData.createdDate;
+      this.UpdatedProducts.area= sessionData.aId;
       
     } else if (this.id.startsWith('NEXE')) {
       const sessionData = JSON.parse(localStorage.getItem('orderFormSession'));
@@ -148,6 +149,7 @@ export class ReviewComponent implements OnInit {
       this.UpdatedProducts.retailor = sessionData.rId;
       this.UpdatedProducts.orderBy = this.id;
       this.UpdatedProducts.createdDate = sessionData.createdDate;
+      this.UpdatedProducts.area= sessionData.aId;
     }
 
     this.UpdatedProducts.totalAmount = this.calculatetotal();
