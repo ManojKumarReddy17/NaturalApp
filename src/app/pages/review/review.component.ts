@@ -32,7 +32,7 @@ import { addProducts, updatedProducts, clear, removeProductDetails } from '../..
 })
 export class ReviewComponent implements OnInit {
   productdetails: Product[] = [];
-  displayedColumns = ['ProductName', 'Quantity', 'Price', 'Subtotal'];
+  displayedColumns = ['ProductName','ProductType', 'Quantity', 'Price', 'Subtotal'];
   dataSource = new MatTableDataSource<Product>();
   subtotal: number;
   selectedProducts: Product[] = [];

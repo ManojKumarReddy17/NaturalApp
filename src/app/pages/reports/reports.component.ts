@@ -45,9 +45,10 @@ export class ReportsComponent implements OnInit {
   endDate: string = '';
   searchText: string = '';
   distributorNames:any='';
+  retailornames:any='';
   ExecutiveId: string | null = null;
   selectedDistributor: any;
-isExecutive:boolean=this.userDetails.id.startsWith("NEXE")?true:false;
+  isExecutive:boolean=this.userDetails.id.startsWith("NEXE")?true:false;
   noDataFound: boolean = true; 
   displayedColumns = ['retailer', 'createdDate', 'productName', 'price', 'quantity', 'saleAmount'];
 
@@ -58,6 +59,9 @@ isExecutive:boolean=this.userDetails.id.startsWith("NEXE")?true:false;
     this.startDate = this.formatDate(today);
     this.endDate = this.formatDate(today);
     this.id="1";
+    this.getretailorsbydistributor();
+    this.getretailorsbydistributorexecutive();
+   
   if(!this.isExecutive)
     this.fetchSalesReport();
   else   
@@ -124,7 +128,26 @@ if(this.isExecutive){
   });
 }
   }
- 
+  getretailorsbydistributor():void{
+    this.distributor = this.userDetails.id;
+      this.salesReportService.getRetailorsbyDistributor(this.distributor).subscribe({
+        next:(data)=>{
+          this.retailornames=data;
+        }
+      })
+    
+  }
+
+  getretailorsbydistributorexecutive():void{
+    this.executive = this.userDetails.id;
+      this.salesReportService.getRetailorsbyDistributor(this.executive).subscribe({
+        next:(data)=>{
+          this.retailornames=data;
+        }
+      })
+    
+  }
+
 
   sortAreas() {
     this.areas.sort((a, b) => a.areaName.localeCompare(b.areaName));
@@ -186,6 +209,14 @@ if(this.isExecutive){
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.noDataFound = this.dataSource.filteredData.length === 0;
+  }
+
+  getRetailordetails(distributorId){
+    this.salesReportService.getRetailorsbyDistributor(distributorId).subscribe({
+      next:(data)=>{
+        this.retailornames=data;
+      }
+    })
   }
 }
 
