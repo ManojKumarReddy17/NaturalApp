@@ -15,6 +15,7 @@ export class ReportsService {
   private AreaUrl = 'Area';
   private DSrUrl='DSReport';
  private assignedDistributorsbyeexecutiveUrl='AssignDistributorToExecutive/Details';
+ private assignretailortodistributor='AssignRetailorToDistributor/Details';
 
   constructor(private client :HttpclentwrapperService, private rxdbService:RXDBService) { }
 
@@ -31,6 +32,9 @@ export class ReportsService {
   getDistributorbyexecutive(id:any): Observable<any>{
     return this.client.get(`${this.assignedDistributorsbyeexecutiveUrl}/${id}`)
     }
+    getRetailorsbyDistributor(id:any):Observable<any>{
+      return this.client.get(`${this.assignretailortodistributor}/${id}`)
+    }//
   getAreas(): Observable<Areas[]> {
     return this.client.get<Areas[]>(this.AreaUrl);
   }
