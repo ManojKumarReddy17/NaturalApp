@@ -18,6 +18,7 @@ import { UserDetails } from '../../Models/user-details';
 import { ProfileService } from '../../../Service/profile.service';
 import { updatedProducts } from '../../../Store/actions';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
+import { Areas } from '../../Models/areas';
 
 @Component({
   selector: 'app-order-form-edit',
@@ -121,7 +122,8 @@ export class OrderformEditComponent implements OnInit {
         product: data.id,
         price: data.price,
         quantity: data.quantity,
-        dsr: dsrId.id
+        dsr: dsrId.id,
+        
       });
     });
     if(this.id.startsWith('NDIS')){
@@ -130,6 +132,7 @@ export class OrderformEditComponent implements OnInit {
     this.UpdatedProducts.executive = disIdAndexeId.exeId;
     this.UpdatedProducts.retailor = retailor.id;
     this.UpdatedProducts.orderBy = disIdAndexeId.id;
+    
     }
     if(this.id.startsWith('NEXE')){
       this.UpdatedProducts.executive = disIdAndexeId.id;
@@ -137,6 +140,7 @@ export class OrderformEditComponent implements OnInit {
       this.UpdatedProducts.distributor = retailor.distributor;
       this.UpdatedProducts.retailor = retailor.id;
     this.UpdatedProducts.orderBy = disIdAndexeId.id;
+   
     }
     
     this.UpdatedProducts.createdDate = selectedDate;

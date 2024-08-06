@@ -12,9 +12,11 @@ import { HttpclentwrapperService } from './httpclentwrapper.service';
 export class ExecutiveService {
   baseurl = "Dsr/ExecId?ExecId=";
   private apiUrl = 'Executive/Login';
-
+  private executivearea ="Executive/exid?exip=";
   constructor(private client:HttpclentwrapperService) { }
-
+  getexecutivearea(id:any):Observable<any>{
+   return this.client.get<any>(`${this.executivearea}${id}`)
+  }//
   getData(userDetails: Login): Observable<UserDetails> {
     return this.client.post<UserDetails>(this.apiUrl, userDetails);
   }

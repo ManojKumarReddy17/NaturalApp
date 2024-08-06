@@ -16,6 +16,9 @@ import { selectProducts } from '../../../Store/selector';
 import { addProducts, updatedProducts } from '../../../Store/actions';
 import { MatTableModule } from '@angular/material/table';
 import {orderformsession } from '../../Models/orderformsession';
+import { ExecutiveService } from '../../../Service/executive.service';
+import { ProfileService } from '../../../Service/profile.service';
+import { UserDetails } from '../../Models/user-details';
 
 @Component({
   selector: 'app-add-dsr',
@@ -40,13 +43,15 @@ export class AddDsrComponent implements OnInit {
   distributorid: string | null = null;
   ExecutiveId: string | null = null;
   retailorNames: any;
+  executiveareas:any;//
   selectedRetailer: any;
   selectedArea: string | undefined;
   retainedproducts: Observable<any>;
   selectedDateValue: Date = new Date();
   isExecutive: boolean = false;
- 
-
+ executive:string='';
+ distributor:string='';
+ userDetails: UserDetails = this.profileservice.getUserDetailsFromlocalStorage();
   dateForm = new FormGroup({
     selectedDate: new FormControl({selectedDate: new FormControl(null)}, [Validators.required, this.lastThreeDaysValidator()])
   });
@@ -57,7 +62,9 @@ export class AddDsrComponent implements OnInit {
     private retailorService: RetailorDetailsService,
     private location: Location,
     private store: Store<Product[]>,
-    private router: Router
+    private router: Router,
+    private executivearea:ExecutiveService,
+    private profileservice:ProfileService
   ) {}
 
   get selectedDate(){
@@ -83,14 +90,18 @@ export class AddDsrComponent implements OnInit {
       this.ExecutiveId = params.get('id');
       this.retainedproducts = this.store.pipe(select(selectProducts));
       console.log(this.retainedproducts);
+      
       this.getProducts();
+      
       
 
       if (this.distributorid && this.distributorid.startsWith('NDIS')) {
-        this.getRetailorNamesByDistributor();
+        this. getRetailorNamesByDistributor();
+        this.getexecutiveareabydistributor();
       } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
         this.isExecutive= true;
         this.getRetailorNamesByExecutive();
+        this.getexecutivearea();
       }
 
       this.loadFromlocalStorage();
@@ -98,7 +109,7 @@ export class AddDsrComponent implements OnInit {
   }
 
   applyFilter(filterValue: string): void {
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
+    this.dataSource.filterPredicate = (data: any, filter: string) => {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
       return data.productName && data.productName.toLowerCase().includes(filter.trim().toLowerCase());
     };
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -167,15 +178,29 @@ export class AddDsrComponent implements OnInit {
   }
 
   filterRetailers(): any[] {
-      return this.retailorNames;
+    return this.retailorNames;
+}
+  getexecutivearea():void{
+     this.executive=this.userDetails.id
+ 
+    this.executivearea.getexecutivearea(this.executive).subscribe({
+      next:(data) =>{
+        this.executiveareas=data;
+        
+      }
+    })
+   
   }
+ getexecutiveareabydistributor():void{
+   this.distributor=this.userDetails.exeId
 
-  // onAreaChange(selectedArea: string): void {
-  //   this.selectedArea = selectedArea;
-  //   if (!selectedArea) {
-  //     this.selectedRetailer = undefined;
-  //   }
-  // }
+  this.executivearea.getexecutivearea(this.distributor).subscribe({
+    next:(data) =>{
+      this.executiveareas=data;
+    }
+  })
+
+}
 
   calculatePricetotal(product: any, productPrice: string): void {
     product.subtotal = parseFloat(productPrice) * product.quantity;

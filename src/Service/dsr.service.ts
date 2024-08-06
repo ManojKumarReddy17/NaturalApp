@@ -19,6 +19,8 @@ constructor(private httpclient:HttpclentwrapperService,private rxdbservice:RXDBS
  {
   return this.httpclient.post<ProductDetails>(this.ApiUrl,prod);
  }
+
+
  setdate(date:Date)
  {
   return this.SelectedDate =date;
