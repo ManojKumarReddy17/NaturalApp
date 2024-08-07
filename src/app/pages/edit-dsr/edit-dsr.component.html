@@ -15,6 +15,16 @@
       </mat-select>
     </mat-form-field> -->
   
+    <div class="flex-item">
+      <mat-form-field class="Dropdown">
+        <mat-label for="areaSelect">Area</mat-label>
+        <mat-select id="areaSelect" [(ngModel)]="selectedArea" >
+          <mat-option [value]="undefined">-- None --</mat-option>
+          <mat-option *ngFor="let areas of executiveareas" [value]="areas.id">{{areas.areaName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
   <div class="flex-item">
     <mat-form-field class="Dropdown" class="retailor">
       <mat-label for="retailerSelect">Retailer</mat-label>

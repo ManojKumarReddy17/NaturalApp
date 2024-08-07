@@ -84,7 +84,7 @@ export class AddDsrComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setupHardwareBackButton();
+    // this.setupHardwareBackButton();
     this.activeRoute.paramMap.subscribe((params: ParamMap) => {
       this.distributorid = params.get('id');
       this.ExecutiveId = params.get('id');
@@ -238,11 +238,11 @@ export class AddDsrComponent implements OnInit {
     this.router.navigate(['/CreateDSR', this.distributorid, 'Review'])
   }
 
-  setupHardwareBackButton(): void {
-    document.addEventListener('backbutton', () => {
-      this.handleHardwareBackButton();
-    });
-  }
+  // setupHardwareBackButton(): void {
+  //   document.addEventListener('backbutton', () => {
+  //     this.handleHardwareBackButton();
+  //   });
+  // }
 
   validateQuantity(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
@@ -272,9 +272,9 @@ export class AddDsrComponent implements OnInit {
   
   
 
-  handleHardwareBackButton(): void {
-    this.location.back();
-  }
+  // handleHardwareBackButton(): void {
+  //   this.location.back();
+  // }
   
   saveTolocalStorage(): void {
     

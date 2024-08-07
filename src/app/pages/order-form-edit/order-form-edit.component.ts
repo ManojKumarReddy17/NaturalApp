@@ -19,6 +19,7 @@ import { ProfileService } from '../../../Service/profile.service';
 import { updatedProducts } from '../../../Store/actions';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 import { Areas } from '../../Models/areas';
+import { json } from 'node:stream/consumers';
 
 @Component({
   selector: 'app-order-form-edit',
@@ -113,6 +114,7 @@ export class OrderformEditComponent implements OnInit {
     const selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
     const disIdAndexeId = JSON.parse(localStorage.getItem('userDetails'));
     const dsrId = JSON.parse(localStorage.getItem('infoButtonClickSubject'));
+    const area = JSON.parse(localStorage.getItem('selectedArea'));
 
     this.productdetails.forEach(data => {
       if (!data.dsr) {
@@ -132,6 +134,7 @@ export class OrderformEditComponent implements OnInit {
     this.UpdatedProducts.executive = disIdAndexeId.exeId;
     this.UpdatedProducts.retailor = retailor.id;
     this.UpdatedProducts.orderBy = disIdAndexeId.id;
+    this.UpdatedProducts.area= area;
     
     }
     if(this.id.startsWith('NEXE')){
@@ -140,6 +143,7 @@ export class OrderformEditComponent implements OnInit {
       this.UpdatedProducts.distributor = retailor.distributor;
       this.UpdatedProducts.retailor = retailor.id;
     this.UpdatedProducts.orderBy = disIdAndexeId.id;
+    this.UpdatedProducts.area= area;
    
     }
     
