@@ -19,6 +19,9 @@ import { ProductDetails } from '../../Models/product-details';
 import { RetailorDetails } from '../../Models/retailor-details';
 import { orderformsession } from '../../Models/orderformsession';
 import { json } from 'stream/consumers';
+import { ExecutiveService } from '../../../Service/executive.service';
+import { UserDetails } from '../../Models/user-details';
+import { ProfileService } from '../../../Service/profile.service';
 @Component({
   selector: 'app-edit-dsr',
   standalone: true,
@@ -45,7 +48,11 @@ export class EditDsrComponent implements OnInit {
   RetailerArea:any;
   RetailerName:any;
   orderDate:Date;
+  executiveareas:any;
+  executive:string='';
+  distributor:string='';
   id:any;
+  userDetails: UserDetails = this.profileservice.getUserDetailsFromlocalStorage();
   sessionKey = `productDetails`;
  sessionData = localStorage.getItem(this.sessionKey);
   constructor(
@@ -54,7 +61,9 @@ export class EditDsrComponent implements OnInit {
     private retailorService: RetailorDetailsService,
     private location: Location,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private executivearea:ExecutiveService,
+    private profileservice:ProfileService
   ) {
     this.retainedproducts$ = this.store.pipe(select(selectProducts));
     this.getRetailorNamesByDistributor();
@@ -64,7 +73,7 @@ export class EditDsrComponent implements OnInit {
     if(retailor == null || retailor == ''){
       const sessionData = localStorage.getItem('infoButtonClickSubject');
          const retailorData = JSON.parse(sessionData);
-         this.selectedArea = retailorData.area;
+         this.selectedArea = retailorData.aId;
           this.selectedRetailer = retailorData.rId;
         this.selectedDate = retailorData.createdDate;
     }
@@ -78,7 +87,7 @@ export class EditDsrComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setupHardwareBackButton();
+    //this.setupHardwareBackButton();
     const userinfo = JSON.parse(localStorage.getItem('userDetails'));
     if(userinfo.id.startsWith('NDIS')){
       this.distributorid = userinfo.id;
@@ -88,8 +97,10 @@ export class EditDsrComponent implements OnInit {
     }
     if (this.distributorid && this.distributorid.startsWith('NDIS')) {
       this.getRetailorNamesByDistributor();
+      this.getexecutiveareabydistributor();
     } else if (this.ExecutiveId && this.ExecutiveId.startsWith('NEXE')) {
       this.getRetailorNamesByExecutive();
+      this.getexecutivearea();
     }
     this.getProducts();
    
@@ -177,6 +188,26 @@ export class EditDsrComponent implements OnInit {
     }
   }
 
+  getexecutivearea():void{
+    this.executive=this.userDetails.id
+
+   this.executivearea.getexecutivearea(this.executive).subscribe({
+     next:(data) =>{
+       this.executiveareas=data;
+       
+     }
+   })
+  
+ }
+getexecutiveareabydistributor():void{
+  this.distributor=this.userDetails.exeId
+
+ this.executivearea.getexecutivearea(this.distributor).subscribe({
+   next:(data) =>{
+     this.executiveareas=data;
+   }
+ })
+}
   review(): void {
     const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
     // console.log(selectedProducts);
@@ -184,6 +215,7 @@ export class EditDsrComponent implements OnInit {
     const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
     localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
     localStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
+    localStorage.setItem('selectedArea', JSON.stringify(this.selectedArea));
     localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
     this.productService.DisplaySelectedProducts(selectedProducts);
     this.router.navigate(['/Edit','Orderform']);
@@ -207,15 +239,15 @@ export class EditDsrComponent implements OnInit {
     return total;
   }
 
-  setupHardwareBackButton(): void {
-    document.addEventListener('backbutton', () => {
-      this.handleHardwareBackButton();
-    });
-  }
+  // setupHardwareBackButton(): void {
+  //   document.addEventListener('backbutton', () => {
+  //     this.handleHardwareBackButton();
+  //   });
+  // }
 
-  handleHardwareBackButton(): void {
-    this.location.back();
-  }
+  // handleHardwareBackButton(): void {
+  //   this.location.back();
+  // }
 
   // filterRetailers(): any[] {
   //   if (!this.selectedArea || !this.retailorNames) {

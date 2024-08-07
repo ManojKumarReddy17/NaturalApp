@@ -25,7 +25,7 @@
     </ng-container>
     <ng-container matColumnDef="ProductType">
       <th mat-header-cell *matHeaderCellDef>ProductType</th>
-      <td mat-cell *matCellDef="let detail"></td>
+      <td mat-cell *matCellDef="let detail">{{detail.productTypeCode}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
     <ng-container matColumnDef="Quantity">

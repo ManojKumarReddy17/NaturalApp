@@ -79,7 +79,7 @@ export class ReportsComponent implements OnInit {
 
   fetchSalesReport() {
     this.distributor = this.userDetails.id;
-    this.salesReportService.getSalesReport(this.selectedArea, this.distributor, this.startDate, this.endDate)
+    this.salesReportService.getSalesReport(this.selectedArea, this.distributor, this.startDate, this.endDate, this.retailors)
       .subscribe((data: Reports[]) => {
         this.salesReports = data;
         this.dataSource.data = data;
@@ -88,17 +88,16 @@ export class ReportsComponent implements OnInit {
     
     }
     fetchDsReport() {
-      
       this.executive = this.userDetails.id;
-      
+      if(this.distributor.startsWith('NEXE')){
+        this.distributor = '';
+      }
       this.salesReportService.getDsrReports(this.selectedArea,this.retailors,this.executive, this.distributor, this.startDate, this.endDate)
         .subscribe((data: dsReports[]) => {
           this.Dsreports = data;
           this.dataSource.data = data;
           this.noDataFound = data.length === 0; 
         });
-      
-      
       }
 
 
@@ -207,8 +206,13 @@ if(this.isExecutive){
 }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.noDataFound = this.dataSource.filteredData.length === 0;
+    this.retailors = filterValue;
+    if(this.isExecutive){
+      this.fetchDsReport();
+    }
+    else {
+      this.fetchSalesReport();
+    }
   }
 
   getRetailordetails(distributorId){
@@ -217,6 +221,10 @@ if(this.isExecutive){
         this.retailornames=data;
       }
     })
+    if(this.isExecutive){
+      this.distributor = distributorId;
+      this.fetchDsReport();
+    }
   }
 }
 

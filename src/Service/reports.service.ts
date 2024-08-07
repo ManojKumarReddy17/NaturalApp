@@ -19,8 +19,8 @@ export class ReportsService {
 
   constructor(private client :HttpclentwrapperService, private rxdbService:RXDBService) { }
 
-  getSalesReport(area: string,Distributor:string,startDate:string,endDate:string): Observable<Reports[]> {
-    return this.client.get<Reports[]>(`${this.apiUrl}?Area=${area}&StartDate=${startDate}&EndDate=${endDate}&distributor=${Distributor}`);
+  getSalesReport(area: string,Distributor:string,startDate:string,endDate:string, retailor:string): Observable<Reports[]> {
+    return this.client.get<Reports[]>(`${this.apiUrl}?Area=${area}&StartDate=${startDate}&EndDate=${endDate}&distributor=${Distributor}&Retailor=${retailor}`);
   }
   getDsrReports(area:string,retailor:string,executive:string,distributor:string,startDate:string,endDate:string): Observable<dsReports[]>
 {
