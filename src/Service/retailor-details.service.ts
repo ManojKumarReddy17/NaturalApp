@@ -17,9 +17,6 @@ export class RetailorDetailsService {
   assignedRetailorsbydistirbutorUrl = 'AssignRetailorToDistributor/Details';
   assignedRetailorsbyexecAndDisUrl = 'Dsr/AssignedDetails';
   
-
-
-
   private userDetailsSubject = new BehaviorSubject<RetailorDetails>(this.getUserDetailsFromlocalStorage());
   userDetails$ = this.userDetailsSubject.asObservable();
   private infoButtonClickSubject = new BehaviorSubject<RetailorDetails | null>(null);

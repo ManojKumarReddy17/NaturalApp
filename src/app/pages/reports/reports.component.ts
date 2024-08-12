@@ -14,6 +14,7 @@ import { MaterialModule } from '../../material.module';
 import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { error } from 'console';
+import { ExecutiveService } from '../../../Service/executive.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ReportsComponent implements OnInit {
   userDetails: UserDetails = this.profileService.getUserDetailsFromlocalStorage();
   areas: Areas[] = [];
   filteredAreas: Areas[] = [];
-  selectedArea: string = '';
+  selectedArea: string ='';
   retailors:string=''; 
   executive:string='';
   distributor: string='';
@@ -50,9 +51,10 @@ export class ReportsComponent implements OnInit {
   selectedDistributor: any;
   isExecutive:boolean=this.userDetails.id.startsWith("NEXE")?true:false;
   noDataFound: boolean = true; 
+  executiveareas:any;
   displayedColumns = ['retailer', 'createdDate', 'productName', 'price', 'quantity', 'saleAmount'];
 
-  constructor(private salesReportService: ReportsService, private profileService: ProfileService) {}
+  constructor(private salesReportService: ReportsService, private profileService: ProfileService,private executivearea:ExecutiveService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -61,25 +63,30 @@ export class ReportsComponent implements OnInit {
     this.id="1";
     this.getretailorsbydistributor();
     this.getretailorsbydistributorexecutive();
-   
-  if(!this.isExecutive)
+  
+
+  if(!this.isExecutive){
     this.fetchSalesReport();
-  else   
+  this.getexecutiveareabydistributor();
+  }
+  else   {
     this.fetchDsReport();
     this.getdistributorbyexecutive();
     this.fetchAreas();
-   
-   
+    this.getexecutivearea();//
+  }
   }
 
-  formatDate(date: Date): string {
-    const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    return localDate.toISOString().split('T')[0];
+  formatDate(today: Date): string {
+    const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
   }
 
   fetchSalesReport() {
     this.distributor = this.userDetails.id;
-    this.salesReportService.getSalesReport(this.selectedArea, this.distributor, this.startDate, this.endDate, this.retailors)
+    this.salesReportService.getSalesReport(this.retailors,this.selectedArea ,this.distributor, this.startDate, this.endDate)
       .subscribe((data: Reports[]) => {
         this.salesReports = data;
         this.dataSource.data = data;
@@ -88,18 +95,22 @@ export class ReportsComponent implements OnInit {
     
     }
     fetchDsReport() {
+      
       this.executive = this.userDetails.id;
       if(this.distributor.startsWith('NEXE')){
-        this.distributor = '';
+        this.distributor='';
       }
-      this.salesReportService.getDsrReports(this.selectedArea,this.retailors,this.executive, this.distributor, this.startDate, this.endDate)
+      this.salesReportService.getDsrReports(this.selectedArea,this.retailors,this.executive,this.distributor, this.startDate, this.endDate,)
         .subscribe((data: dsReports[]) => {
           this.Dsreports = data;
           this.dataSource.data = data;
           this.noDataFound = data.length === 0; 
         });
+      
+      
       }
-
+   
+    
 
   fetchAreas() {
     this.salesReportService.getAreas()
@@ -146,6 +157,27 @@ if(this.isExecutive){
       })
     
   }
+  getexecutivearea():void{
+    this.executive=this.userDetails.id
+
+   this.executivearea.getexecutivearea(this.executive).subscribe({
+     next:(data) =>{
+       this.executiveareas=data;
+       
+     }
+   })
+  
+ }
+ getexecutiveareabydistributor():void{
+  this.distributor=this.userDetails.exeId
+
+ this.executivearea.getexecutivearea(this.distributor).subscribe({
+   next:(data) =>{
+     this.executiveareas=data;
+   }
+ })
+
+}
 
 
   sortAreas() {
@@ -166,10 +198,15 @@ if(this.isExecutive){
     return areaName.replace(/\s/g, '').includes(searchText.replace(/\s/g, ''));
   }
 
-  selectArea(areaId: string) {
-    this.selectedArea = areaId;
-    this.fetchSalesReport();
-    this.fetchDsReport();
+  selectArea(id:string) {
+    this.selectedArea = id;
+    if(this.isExecutive){
+      this.fetchDsReport()
+    
+    }
+    else{
+      this.fetchSalesReport();
+    }
   }
 
   onSearchChange(event: any) {
@@ -205,27 +242,32 @@ if(this.isExecutive){
     return this.distributorNames;
 }
 
-  applyFilter(filterValue: string) {
-    this.retailors = filterValue;
-    if(this.isExecutive){
-      this.fetchDsReport();
-    }
-    else {
-      this.fetchSalesReport();
-    }
+applyFilter(filterValue: string) {
+  this.retailors = filterValue;
+  if(this.retailors == undefined){
+    this.retailors = '';
   }
-
-  getRetailordetails(distributorId){
-    this.salesReportService.getRetailorsbyDistributor(distributorId).subscribe({
-      next:(data)=>{
-        this.retailornames=data;
-      }
-    })
-    if(this.isExecutive){
-      this.distributor = distributorId;
-      this.fetchDsReport();
-    }
+  if(this.isExecutive){
+    this.fetchDsReport();
   }
+  else {
+    this.fetchSalesReport();
+  }
+}
+getRetailordetails(distributorId){
+  this.salesReportService.getRetailorsbyDistributor(distributorId).subscribe({
+    next:(data)=>{
+      this.retailornames=data;
+    }
+  })
+  if(this.isExecutive){
+    this.distributor = distributorId;
+    if(this.distributor == undefined){
+      this.distributor = '';
+    }
+    this.fetchDsReport();
+  }
+ }
 }
 
 

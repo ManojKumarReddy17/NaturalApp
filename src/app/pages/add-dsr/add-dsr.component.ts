@@ -43,7 +43,7 @@ export class AddDsrComponent implements OnInit {
   distributorid: string | null = null;
   ExecutiveId: string | null = null;
   retailorNames: any;
-  executiveareas:any;//
+  executiveareas:any;
   selectedRetailer: any;
   selectedArea: string | undefined;
   retainedproducts: Observable<any>;
@@ -277,17 +277,21 @@ export class AddDsrComponent implements OnInit {
   // }
   
   saveTolocalStorage(): void {
-    
+    const datevalue = this.selectedDateValue;
+    const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
+    const localTime = new Date(datevalue.getTime() + istOffset * 60 * 1000);
+    // const date = new Date(datevalue);
+    // let formattedDate = date.toISOString().split('T')[0];
     const orderFormSession: orderformsession = {
       rId: this.selectedRetailer || '',
       aId: this.selectedArea || '',
-
-      createdDate: this.selectedDateValue,
+      createdDate: localTime,
       retailor: this.retailorNames.filter((item) => item.id === this.selectedRetailer),
       area: this.selectedArea ? [{ id: '', areaName: this.selectedArea }] : [],
       selectedproducts: []
     };
     localStorage.setItem('orderFormSession', JSON.stringify(orderFormSession));
+    //localStorage.setItem('createdDateValue', JSON.stringify(localTime));
   }
 
   loadFromlocalStorage(): void {

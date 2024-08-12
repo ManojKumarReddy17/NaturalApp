@@ -17,34 +17,17 @@
   <mat-datepicker #picker2></mat-datepicker>
 </mat-form-field>
 
-<!-- <mat-form-field class="searchfilter">
-  <mat-label for="distributor">Distributor</mat-label>
-  <mat-select id="distributorselect" [(ngModel)]="selectedDistributor">
-    <mat-option [value]="undefined">-- None --</mat-option>
-    <ng-container *ngIf="isExecutive">
-      <mat-option *ngFor="let distributor of filterDistributors()" [value]="distributor.id">
-        {{ distributor.firstName }} {{ distributor.lastName }}
-      </mat-option>
-    </ng-container>
-    <ng-container *ngIf="!isExecutive">
-      <mat-option *ngFor="let distributor of filterDistributors()" [value]="distributor.id">
-        {{ distributor.firstName }} {{ distributor.lastName }}
-      </mat-option>
-     
-    </ng-container>
-  </mat-select>
-</mat-form-field>
 
+ 
 
- <mat-form-field class="searchfilter">
-        <mat-label>Retailer</mat-label>
-        <mat-select placeholder="Select Retailer" (selectionChange)="applyFilter($event.value)">
-          <mat-option [value]="undefined">-- None --</mat-option>
-        </mat-select>
-      </mat-form-field>
- -->
+  <mat-form-field class="searchfilter" *ngIf="isExecutive">
+    <mat-label for="areaSelect">Area</mat-label>
+    <mat-select id="areaSelect" [(ngModel)]="selectedArea" (selectionChange)="selectArea($event.value)" >
+      <mat-option [value]="undefined">-- None --</mat-option>
+      <mat-option *ngFor="let areas of executiveareas" [value]="areas.id">{{areas.areaName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<!-- Distributor Filter (only visible if the user is an executive) -->
 <mat-form-field class="searchfilter" *ngIf="isExecutive">
   <mat-label for="distributor">Distributor</mat-label>
   <mat-select id="distributorselect" [(ngModel)]="selectedDistributor" (selectionChange)="getRetailordetails($event.value)">
