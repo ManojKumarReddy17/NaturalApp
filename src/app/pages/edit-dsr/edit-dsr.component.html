@@ -1,6 +1,6 @@
 <div class="flex-container">
   <div class="flex-item">
-    <mat-form-field class="Datepicker">
+    <mat-form-field class="Datepicker"  class="retailor">
       <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" class="input-field">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -16,7 +16,7 @@
     </mat-form-field> -->
   
     <div class="flex-item">
-      <mat-form-field class="Dropdown">
+      <mat-form-field class="Dropdown" class="retailor">
         <mat-label for="areaSelect">Area</mat-label>
         <mat-select id="areaSelect" [(ngModel)]="selectedArea" >
           <mat-option [value]="undefined">-- None --</mat-option>
@@ -69,7 +69,7 @@
       </td>
       <td mat-footer-cell *matFooterCellDef>
         {{calculateTotal()}}
-        <button mat-button class="custom-primary-button" (click)="review()">Review</button>
+        <button mat-button class="custom-primary-button" (click)="review()"*ngIf="selectedArea && selectedRetailer">Review</button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

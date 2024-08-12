@@ -208,20 +208,19 @@ getexecutiveareabydistributor():void{
    }
  })
 }
-  review(): void {
-    const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
-    // console.log(selectedProducts);
-    // console.log(this.selectedRetailer);
-    const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
-    localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
-    localStorage.setItem('selectedDateValue', JSON.stringify(this.selectedDate));
-    localStorage.setItem('selectedArea', JSON.stringify(this.selectedArea));
-    localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
-    this.productService.DisplaySelectedProducts(selectedProducts);
-    this.router.navigate(['/Edit','Orderform']);
-   
-      
-  }
+review(): void {
+  const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
+  const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
+  localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
+  const datevalue = this.selectedDate;
+  const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
+  const localTime = new Date(datevalue.getTime() + istOffset * 60 * 1000);
+  localStorage.setItem('selectedDateValue', JSON.stringify(localTime));
+  localStorage.setItem('selectedArea', JSON.stringify(this.selectedArea));
+  localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
+  this.productService.DisplaySelectedProducts(selectedProducts);
+  this.router.navigate(['/Edit','Orderform']);
+}
 
   calculateSubtotal(product: any, newQuantity: string): void {
     product.subtotal = product.price * parseFloat(newQuantity);
