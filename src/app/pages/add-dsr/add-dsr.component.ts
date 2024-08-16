@@ -277,15 +277,25 @@ export class AddDsrComponent implements OnInit {
   // }
   
   saveTolocalStorage(): void {
-    const datevalue = this.selectedDateValue;
-    const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
-    const localTime = new Date(datevalue.getTime() + istOffset * 60 * 1000);
+    let datevalue = this.selectedDateValue;
+    // let todayDate = new Date();
+    // const formateddate = datevalue.getDay()+ "-" + (datevalue.getMonth()+1) + "-" + datevalue.getFullYear();
+    // const today = todayDate.getDay()+ "-" + (todayDate.getMonth()+1) + "-" + todayDate.getFullYear();
+    // if(formateddate !== today){
+      
+      if(!datevalue.toString().endsWith('T00:00:00.000Z')){
+        const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
+        datevalue= new Date(datevalue.getTime() + istOffset * 60 * 1000);
+         }
+    //}
+      
+    
     // const date = new Date(datevalue);
     // let formattedDate = date.toISOString().split('T')[0];
     const orderFormSession: orderformsession = {
       rId: this.selectedRetailer || '',
       aId: this.selectedArea || '',
-      createdDate: localTime,
+      createdDate: datevalue,
       retailor: this.retailorNames.filter((item) => item.id === this.selectedRetailer),
       area: this.selectedArea ? [{ id: '', areaName: this.selectedArea }] : [],
       selectedproducts: []

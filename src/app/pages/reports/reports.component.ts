@@ -86,7 +86,7 @@ export class ReportsComponent implements OnInit {
 
   fetchSalesReport() {
     this.distributor = this.userDetails.id;
-    this.salesReportService.getSalesReport(this.retailors,this.selectedArea ,this.distributor, this.startDate, this.endDate)
+    this.salesReportService.getSalesReport(this.distributor, this.endDate, this.retailors ,this.startDate)
       .subscribe((data: Reports[]) => {
         this.salesReports = data;
         this.dataSource.data = data;

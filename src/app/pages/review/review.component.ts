@@ -38,7 +38,7 @@ export class ReviewComponent implements OnInit {
   selectedProducts: Product[] = [];
   selectedRetailer: any;
   selectedArea: string | undefined;
-  selectedDate: Date = new Date();
+  selectedDate: Date;
   UpdatedProducts: ProductDetails = new ProductDetails();
   id: string;
   role: string;
@@ -69,7 +69,8 @@ export class ReviewComponent implements OnInit {
       const orderFormSession: orderformsession = JSON.parse(sessionData);
       this.selectedRetailer = orderFormSession.retailor[0].retailorName;
       this.selectedArea = orderFormSession.aId;
-      this.selectedDate = orderFormSession.createdDate;
+      let dateValue = orderFormSession.createdDate.toString().split('T')[0];
+      this.selectedDate = dateValue;
        this.products  = this.store.pipe(select(selectProducts));
        console.log(this.products);
   }

@@ -73,12 +73,12 @@ export class EditDsrComponent implements OnInit {
     if(retailor == null || retailor == ''){
       const sessionData = localStorage.getItem('infoButtonClickSubject');
          const retailorData = JSON.parse(sessionData);
-         this.selectedArea = retailorData.aId;
+         this.selectedArea = retailorData.aId ;
           this.selectedRetailer = retailorData.rId;
         this.selectedDate = retailorData.createdDate;
     }
     else{
-      this.selectedArea = retailor.area;
+      this.selectedArea = JSON.parse(localStorage.getItem('selectedArea'));
          this.selectedRetailer = retailor.id;
         this.selectedDate = JSON.parse(localStorage.getItem('selectedDateValue'));
     }
@@ -212,10 +212,15 @@ review(): void {
   const selectedProducts = this.dataSource.data.filter(product => product.quantity !== 0 && product.quantity !== '' && product.quantity !== undefined);
   const retailorSelect = this.retailorNames.find((item) => item.id === this.selectedRetailer);
   localStorage.setItem('selectedRetailor', JSON.stringify(retailorSelect));
-  const datevalue = this.selectedDate;
-  const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
-  const localTime = new Date(datevalue.getTime() + istOffset * 60 * 1000);
-  localStorage.setItem('selectedDateValue', JSON.stringify(localTime));
+  let datevalue = this.selectedDate;
+  if(!datevalue.toString().endsWith('T00:00:00')){
+    if(!datevalue.toString().endsWith('T00:00:00.000Z')){
+      const istOffset = 5.5 * 60; // IST is UTC +5:30, so the offset in minutes is 330
+      datevalue= new Date(datevalue.getTime() + istOffset * 60 * 1000);
+    }
+    
+     }
+  localStorage.setItem('selectedDateValue', JSON.stringify(datevalue));
   localStorage.setItem('selectedArea', JSON.stringify(this.selectedArea));
   localStorage.setItem(this.sessionKey, JSON.stringify(selectedProducts));
   this.productService.DisplaySelectedProducts(selectedProducts);
