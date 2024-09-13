@@ -81,3 +81,12 @@ export class dsReports {
 
     }
 }
+
+  export class ResponseModel {
+    firstName: string;
+    totalSaleAmount: number;
+    constructor(FirstName:string,TotalSaleAmount:number){
+     this.firstName=FirstName;
+     this.totalSaleAmount=TotalSaleAmount;
+    }
+  }

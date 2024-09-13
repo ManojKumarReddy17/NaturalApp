@@ -14,7 +14,8 @@ const allProducts : RxJsonSchema<Product> = {
         subtotal: { type: 'any' },
         image: {type: 'any'},
         total:{type:'any'},
-        dsr:{type:'any'}
+        dsr:{type:'any'},
+        displayPrice:{type:'number'}
     },
     primaryKey: 'id',
 };

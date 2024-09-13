@@ -1,11 +1,11 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {  Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSelect } from '@angular/material/select';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
-import { dsReports, Reports } from '../../Models/reports';
+import { dsReports, Reports, ResponseModel } from '../../Models/reports';
 import { ReportsService } from '../../../Service/reports.service';
 import { ProfileService } from '../../../Service/profile.service';
 import { Areas } from '../../Models/areas';
@@ -17,12 +17,15 @@ import { error } from 'console';
 import { ExecutiveService } from '../../../Service/executive.service';
 
 
+
+
 @Component({
   selector: 'app-reports',
   standalone: true,
   imports: [MaterialModule, FormsModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss'],
+ 
 })
 export class ReportsComponent implements OnInit {
   @ViewChild(MatSelect) select: MatSelect;
@@ -31,8 +34,7 @@ export class ReportsComponent implements OnInit {
 
   salesReports: Reports[] = [];
   Dsreports:dsReports[]=[];
-
-  
+  responsemodel:ResponseModel[]=[];
   dataSource=new MatTableDataSource<any>();
   userDetails: UserDetails = this.profileService.getUserDetailsFromlocalStorage();
   areas: Areas[] = [];
@@ -53,9 +55,18 @@ export class ReportsComponent implements OnInit {
   noDataFound: boolean = true; 
   executiveareas:any;
   displayedColumns = ['retailer', 'createdDate', 'productName', 'price', 'quantity', 'saleAmount'];
+  shopWiseDisplayedColumns: string[] = ['firstName','totalSaleAmount'];
+  selectedFilterType: 'Retailer' | 'ShopWise' | 'Other';
+  // selectedFilterType: string = 'ShopWise';
+  
+  
+ 
 
-  constructor(private salesReportService: ReportsService, private profileService: ProfileService,private executivearea:ExecutiveService) {}
-
+  
+  constructor(private salesReportService: ReportsService, private profileService: ProfileService,private executivearea:ExecutiveService ) {}
+ 
+ 
+ 
   ngOnInit(): void {
     const today = new Date();
     this.startDate = this.formatDate(today);
@@ -63,7 +74,7 @@ export class ReportsComponent implements OnInit {
     this.id="1";
     this.getretailorsbydistributor();
     this.getretailorsbydistributorexecutive();
-  
+    
 
   if(!this.isExecutive){
     this.fetchSalesReport();
@@ -71,22 +82,28 @@ export class ReportsComponent implements OnInit {
   }
   else   {
     this.fetchDsReport();
+    this.shopDsrReport();
     this.getdistributorbyexecutive();
     this.fetchAreas();
-    this.getexecutivearea();//
+    this.getexecutivearea();
   }
   }
 
+ 
+
   formatDate(today: Date): string {
-    const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+    
+    
+    const year = today.getFullYear().toString().slice(-2); 
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');// Get last two digits of the year
+    return `${year}/${month}/${day}`;
   }
+ 
 
   fetchSalesReport() {
     this.distributor = this.userDetails.id;
-    this.salesReportService.getSalesReport(this.distributor, this.endDate, this.retailors ,this.startDate)
+    this.salesReportService.getSalesReport(this.distributor,this.retailors,this.startDate,this.endDate )
       .subscribe((data: Reports[]) => {
         this.salesReports = data;
         this.dataSource.data = data;
@@ -109,8 +126,26 @@ export class ReportsComponent implements OnInit {
       
       
       }
-   
-    
+      shopDsrReport(){
+        this.executive = this.userDetails.id;
+        if(this.distributor.startsWith('NEXE')){
+          this.distributor='';
+        }
+      this.salesReportService.getshopDetails(this.selectedArea,this.distributor,this.executive,this.startDate,this.endDate).subscribe({
+        next: (data:ResponseModel[]) => {
+        this.responsemodel=data;
+        this.dataSource.data=data;
+         
+        this.noDataFound=data.length===0;
+        
+      
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        }
+      });
+      }
+     
 
   fetchAreas() {
     this.salesReportService.getAreas()
@@ -201,8 +236,8 @@ if(this.isExecutive){
   selectArea(id:string) {
     this.selectedArea = id;
     if(this.isExecutive){
-      this.fetchDsReport()
-    
+      this.fetchDsReport();
+    this.shopDsrReport();
     }
     else{
       this.fetchSalesReport();
@@ -226,8 +261,10 @@ if(this.isExecutive){
         this.fetchSalesReport();
       else   
         this.fetchDsReport();
+      this.shopDsrReport();
     }
   }
+ 
 
   updateEndDate(event: MatDatepickerInputEvent<Date>) {
     if (event.value) {
@@ -236,8 +273,10 @@ if(this.isExecutive){
         this.fetchSalesReport();
       else   
         this.fetchDsReport();
+      this.shopDsrReport();
     }
   }
+
   filterDistributors(): any[] {
     return this.distributorNames;
 }
@@ -249,6 +288,7 @@ applyFilter(filterValue: string) {
   }
   if(this.isExecutive){
     this.fetchDsReport();
+    this.shopDsrReport();
   }
   else {
     this.fetchSalesReport();
@@ -265,12 +305,11 @@ getRetailordetails(distributorId){
     if(this.distributor == undefined){
       this.distributor = '';
     }
+    
     this.fetchDsReport();
+    this.shopDsrReport();
+  
   }
  }
 }
-
-
-
-
 
