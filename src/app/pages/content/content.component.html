@@ -2,13 +2,20 @@
   <span class="red-text">{{DSRCount}}</span>
 </p>
 
-<mat-form-field class="Datepicker">
+<!-- <mat-form-field class="Datepicker">
   <mat-icon matPrefix>search</mat-icon>
 
   <input matInput [matDatepicker]="picker" placeholder="Choose a date" class="input-field" (dateInput)="onDateChanged($event)">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
+</mat-form-field> -->
+<mat-form-field class="Datepicker">
+  <mat-icon matPrefix>calendar_today</mat-icon>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" class="input-field" (dateInput)="onDateChanged($event)">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+
 
 <!-- <mat-form-field class="searchfilter">
   <mat-icon matPrefix>search</mat-icon>

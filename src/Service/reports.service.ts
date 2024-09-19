@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { dsReports, Reports } from '../app/Models/reports';
+import { dsReports, Reports, ResponseModel } from '../app/Models/reports';
 import { Observable } from 'rxjs';
 import { Areas } from '../app/Models/areas';
 import { HttpclentwrapperService } from './httpclentwrapper.service';
@@ -16,19 +16,20 @@ export class ReportsService {
   private DSrUrl='DSReport';
  private assignedDistributorsbyeexecutiveUrl='AssignDistributorToExecutive/Details';
  private assignretailortodistributor='AssignRetailorToDistributor/Details';
-
+ private shopurl='DSReport/ShopWise';
   constructor(private client :HttpclentwrapperService, private rxdbService:RXDBService) { }
 
-  getSalesReport( distributor: string, endDate: string, retailors: string ,startDate: string): Observable<Reports[]> {
-    return this.client.get<Reports[]>(`${this.apiUrl}?distributor=${distributor}&EndDate=${endDate}&Retailor=${retailors}&StartDate=${startDate}`);
+  getSalesReport( distributor: string, retailors: string ,startDate: string, endDate: string): Observable<Reports[]> {
+    return this.client.get<Reports[]>(`${this.apiUrl}?distributor=${distributor}&Retailor=${retailors}&StartDate=${startDate}&EndDate=${endDate}`);
   }
   getDsrReports(area:string,retailor:string,executive:string,distributor:string,startDate:string,endDate:string): Observable<dsReports[]>
 {
   return this.client.get<dsReports[]>(`${this.DSrUrl}?Area=${area}&Retailor=${retailor}&Executive=${executive}&Distributor=${distributor}&StartDate=${startDate}&EndDate=${endDate}`)
 }  
-  // getSalesReport(area: string,Distributor:string,startDate:string,endDate:string): Observable<Reports[]> {
-  //   return this.client.get<Reports[]>(`${this.apiUrl}?distributor=${Distributor}&StartDate=${startDate}&EndDate=${endDate}&Area=${area}`);
-  // }
+  getshopDetails(area: string,distributor:string,executive:string,startDate:string,endDate:string): Observable<ResponseModel[]> {
+    return this.client.get<ResponseModel[]>(`${this.shopurl}?Area=${area}&Executive=${executive}&Distributor=${distributor}&StartDate=${startDate}&EndDate=${endDate}`);
+  }
+
   getDistributorbyexecutive(id:any): Observable<any>{
     return this.client.get(`${this.assignedDistributorsbyeexecutiveUrl}/${id}`)
     }

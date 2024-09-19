@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { RetailorDetails } from '../../Models/retailor-details';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { GpsService } from '../../../Service/gps.service';
@@ -15,11 +15,15 @@ import { DsrService } from '../../../Service/dsr.service';
 import { Store } from '@ngrx/store';
 import { Product } from '../../Models/product';
 import { clear } from '../../../Store/actions';
+import { NativeDateAdapter } from '@angular/material/core';
+
+
 
 @Component({
   selector: 'app-content',
   standalone: true,
-  imports: [MaterialModule, RouterModule, RouterOutlet, MatDatepickerModule, MatNativeDateModule, FormsModule, DatePipe, MatAutocompleteModule],
+  imports: [MaterialModule, RouterModule, RouterOutlet, MatDatepickerModule, MatNativeDateModule, FormsModule, DatePipe, MatAutocompleteModule,],
+  
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss']
 })
@@ -178,7 +182,7 @@ export class ContentComponent implements OnInit {
   }
 
   onDateChanged(event: MatDatepickerInputEvent<Date>) {
-    const selectedDateStr = this.datePipe.transform(event.value, 'MM-dd-yyyy');
+    const selectedDateStr = this.datePipe.transform(event.value, 'dd-MM-yyyy');
     if (!selectedDateStr) {
       this.loadRetailorList();
       return;
